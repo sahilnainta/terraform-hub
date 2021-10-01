@@ -6,19 +6,25 @@ variable "project" {
 variable "region" {
   description = "AWS Region"
   type = string
-  default = "us-east-1"
+  default = "us-west-1"
 }
 
 variable "az" {
   description = "Availability Zone"
   type = string
-  default = "us-east-1a"
+  default = "us-west-1a"
 }
 
 variable "instance_type" {
   description = "Instance Type"
   type = string
   default = "t2.micro"
+}
+
+variable "instance_count" {
+  description = "Instance Count"
+  type = string
+  default = 1
 }
 
 variable "key_name" {
