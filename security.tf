@@ -4,6 +4,7 @@ resource "aws_security_group" "general_sg" {
   vpc_id      = aws_vpc.main.id
 
   tags = {
+    Name = "general_sg"
     Project = var.project
   }
 }
@@ -13,6 +14,7 @@ resource "aws_security_group" "bastion_sg" {
   vpc_id      = aws_vpc.main.id
 
   tags = {
+    Name = "bastion_sg"
     Project = var.project
   }
 }
@@ -21,6 +23,7 @@ resource "aws_security_group" "app_sg" {
   description = "SSH ingress from Bastion and all TCP traffic ingress from ALB Security Group"
   vpc_id      = aws_vpc.main.id
   tags = {
+    Name = "app_sg"
     Project = var.project
   }
 }
