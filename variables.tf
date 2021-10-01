@@ -1,18 +1,12 @@
 variable "project" {
   description = "Project Name"
   type = string
-  default = "hub-app"
+  default = "terraform-project"
 }
 variable "region" {
   description = "AWS Region"
   type = string
   default = "us-west-1"
-}
-
-variable "az" {
-  description = "Availability Zone"
-  type = string
-  default = "us-west-1a"
 }
 
 variable "instance_type" {
@@ -30,5 +24,5 @@ variable "instance_count" {
 variable "key_name" {
   description = "Key Name"
   type = string
-  default = "hub_app_key"
+  default = "terraform-app-key"
 }

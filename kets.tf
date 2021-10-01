@@ -4,7 +4,7 @@ resource "tls_private_key" "rsa_key" {
 }
 
 resource "aws_key_pair" "key_pair" {
-  key_name   = "hub_app_key"
+  key_name   = var.key_name
   public_key = tls_private_key.rsa_key.public_key_openssh
 }
 
@@ -23,12 +23,12 @@ resource "local_file" "my_key_file" {
 
 locals {
   is_windows = substr(pathexpand("~"), 0, 1) == "/" ? false : true
-  key_file   = pathexpand("~/.ssh/hub_app_key.pem")
+  key_file   = pathexpand(format("~/.ssh/%s.pem", var.key_name))
 }
 
 locals {
   bash           = "chmod 400 ${local.key_file}"
   bash_ssh       = "eval `ssh-agent` ; ssh-add -k ${local.key_file}"
   powershell     = "icacls ${local.key_file} /inheritancelevel:r /grant:r johndoe:R"
-  powershell_ssh = "ssh-agent ; ssh-add -k ~/.ssh/hub_app_key.pem"
+  powershell_ssh = "${format("ssh-agent ; ssh-add -k ~/.ssh/%s.pem", var.key_name)}"
 }
