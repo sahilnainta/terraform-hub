@@ -29,7 +29,7 @@ resource "aws_subnet" "pub_sub" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "${format("%s-pub-sub", var.project)}"
+    Name = "${format("%s-pub-sub-%03d", var.project, count.index + 1)}"
     Tier = "Public"
     Project = var.project
   }
@@ -44,7 +44,7 @@ resource "aws_subnet" "prv_sub" {
   map_public_ip_on_launch = false
 
   tags = {
-    Name = "${format("%s-prv-sub", var.project)}"
+    Name = "${format("%s-prv-sub-%03d", var.project, count.index + 1)}"
     Tier = "Private"
     Project = var.project
   }
@@ -87,7 +87,7 @@ resource "aws_eip" "nat_eip" {
   count = "${length(data.aws_availability_zones.available.names)}"
 
   tags = {
-    Name = "${format("%s-nat-eip", var.project)}"
+    Name = "${format("%s-nat-eip-%03d", var.project, count.index + 1)}"
     Project = var.project
   }
 }
@@ -99,7 +99,7 @@ resource "aws_nat_gateway" "ngw" {
   subnet_id     =  "${element(aws_subnet.pub_sub.*.id, count.index)}"
 
   tags = {
-    Name = "${format("%s-ngw", var.project)}"
+    Name = "${format("%s-ngw-%03d", var.project, count.index + 1)}"
     Project = var.project
   }
 }
@@ -114,7 +114,7 @@ resource "aws_route_table" "prv_rt" {
   }
 
   tags = {
-    Name = "${format("%s-prv-rt", var.project)}"
+    Name = "${format("%s-prv-rt-%03d", var.project, count.index + 1)}"
     Project = var.project
   }
 }
