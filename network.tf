@@ -15,6 +15,7 @@ resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
 
   tags = {
+    Name = "${format("%s-vpc", var.project)}"
     Project = var.project
   }
 }
@@ -28,7 +29,7 @@ resource "aws_subnet" "pub_sub" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "pub_sub"
+    Name = "${format("%s-pub-sub", var.project)}"
     Tier = "Public"
     Project = var.project
   }
@@ -43,7 +44,7 @@ resource "aws_subnet" "prv_sub" {
   map_public_ip_on_launch = false
 
   tags = {
-    Name = "prv_sub"
+    Name = "${format("%s-prv-sub", var.project)}"
     Tier = "Private"
     Project = var.project
   }
@@ -54,6 +55,7 @@ resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.main.id
 
   tags = {
+    Name = "${format("%s-igw", var.project)}"
     Project = var.project
   }
 }
@@ -68,6 +70,7 @@ resource "aws_route_table" "pub_rt" {
   }
 
   tags = {
+    Name = "${format("%s-pub-rt", var.project)}"
     Project = var.project
   }
 }
@@ -84,6 +87,7 @@ resource "aws_eip" "nat_eip" {
   count = "${length(data.aws_availability_zones.available.names)}"
 
   tags = {
+    Name = "${format("%s-nat-eip", var.project)}"
     Project = var.project
   }
 }
@@ -95,6 +99,7 @@ resource "aws_nat_gateway" "ngw" {
   subnet_id     =  "${element(aws_subnet.pub_sub.*.id, count.index)}"
 
   tags = {
+    Name = "${format("%s-ngw", var.project)}"
     Project = var.project
   }
 }
@@ -109,6 +114,7 @@ resource "aws_route_table" "prv_rt" {
   }
 
   tags = {
+    Name = "${format("%s-prv-rt", var.project)}"
     Project = var.project
   }
 }
