@@ -15,7 +15,7 @@ variable "instance_type" {
   default = "t2.micro"
 }
 
-variable "instance_count" {
+variable "app_instance_count" {
   description = "Instance Count"
   type = string
   default = 1
@@ -25,4 +25,10 @@ variable "key_name" {
   description = "Key Name"
   type = string
   default = "terraform-app-key"
+}
+
+variable "ami" {
+  description = "AMI"
+  type = string
+  default = "ami-0c473704d15f7317c"
 }

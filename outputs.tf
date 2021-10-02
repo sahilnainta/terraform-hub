@@ -10,6 +10,6 @@ output "ssh_key_path" {
   value = local_file.my_key_file.filename
 }
 
-# output "elb_dns_name" {
-#   value = aws_elb.hub_app.dns_name
-# }
+output "elb-dns-name" {
+  value = "${aws_elb.app_elb.dns_name}"
+}
