@@ -1,6 +1,6 @@
 #Creating ELB
 resource "aws_elb" "app_elb" {
-  name            = format("%s-elb", var.project)
+  name            = format("%s-app-elb", var.project)
   security_groups = [aws_security_group.general_sg.id, aws_security_group.elb_sg.id, aws_security_group.app_sg.id]
   subnets         = aws_subnet.pub_sub.*.id
   # availability_zones = data.aws_availability_zones.available.names
@@ -24,13 +24,13 @@ resource "aws_elb" "app_elb" {
   connection_draining         = true
   connection_draining_timeout = 300
   tags = {
-    Name = "${format("%s-elb", var.project)}"
+    Name = "${format("%s-app-elb", var.project)}"
   }
 }
 
 #Creating Launch Configuration
 resource "aws_launch_configuration" "app_lc" {
-  name            = format("%s-lc", var.project)
+  name            = format("%s-app-lc", var.project)
   image_id        = var.ami
   instance_type   = var.instance_type
   security_groups = [aws_security_group.general_sg.id, aws_security_group.app_sg.id]
@@ -42,8 +42,8 @@ resource "aws_launch_configuration" "app_lc" {
 }
 
 # Creating AutoScaling Group
-resource "aws_autoscaling_group" "app" {
-  name                 = format("%s-asg", var.project)
+resource "aws_autoscaling_group" "app_asg" {
+  name                 = format("%s-app-asg", var.project)
   min_size          = 2
   max_size          = 10
   load_balancers    = [aws_elb.app_elb.name]
@@ -51,9 +51,14 @@ resource "aws_autoscaling_group" "app" {
   launch_configuration = aws_launch_configuration.app_lc.id
   vpc_zone_identifier  = aws_subnet.prv_sub.*.id
   # availability_zones = data.aws_availability_zones.available.names
+
+  # Required to redeploy without an outage.
+  lifecycle {
+    create_before_destroy = true
+  }
   tag {
     key                 = "Name"
-    value               = format("%s-server", var.project)
+    value               = format("%s-app-server", var.project)
     propagate_at_launch = true
   }
 

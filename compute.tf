@@ -20,6 +20,7 @@ resource "aws_instance" "jump_box" {
 # resource "aws_instance" "app_instance" {
 #   ami           = var.ami
 #   instance_type = "t2.micro"
+#   monitoring    = true
 #   key_name      = var.key_name
 #   subnet_id              = aws_subnet.prv_sub[0].id
 #   vpc_security_group_ids = [aws_security_group.general_sg.id, aws_security_group.app_sg.id]
