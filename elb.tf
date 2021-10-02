@@ -43,7 +43,7 @@ resource "aws_launch_configuration" "app_lc" {
 
 # Creating AutoScaling Group
 resource "aws_autoscaling_group" "app_asg" {
-  name                 = format("%s-app-asg", var.project)
+  name              = format("%s-app-asg", var.project)
   min_size          = 2
   max_size          = 10
   load_balancers    = [aws_elb.app_elb.name]
@@ -67,4 +67,54 @@ resource "aws_autoscaling_group" "app_asg" {
     value               = var.project
     propagate_at_launch = true
   }
+}
+
+# Creating AutoScaling Policies
+resource "aws_autoscaling_policy" "app_scale_up" {
+  name                   = format("%s-app-scale-up", var.project)
+  scaling_adjustment     = 1
+  adjustment_type        = "ChangeInCapacity"
+  cooldown               = 300
+  autoscaling_group_name = aws_autoscaling_group.app_asg.name
+}
+resource "aws_autoscaling_policy" "app_scale_down" {
+  name                   = format("%s-app-scale-down", var.project)
+  scaling_adjustment     = -1
+  adjustment_type        = "ChangeInCapacity"
+  cooldown               = 300
+  autoscaling_group_name = aws_autoscaling_group.app_asg.name
+}
+
+# Scaling app_asg based on cloudwatch metrics
+resource "aws_cloudwatch_metric_alarm" "high_cpu" {
+  alarm_name          = format("%s-app-high-cpu", var.project)
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = "2"
+  metric_name         = "CPUUtilization"
+  namespace           = "AWS/EC2"
+  period              = "120"
+  statistic           = "Average"
+  threshold           = "80"
+  alarm_description   = format("This metric monitors %s-app high cpu utilization", var.project)
+  dimensions = {
+    AutoScalingGroupName = aws_autoscaling_group.app_asg.name
+  }
+
+  alarm_actions = [aws_autoscaling_policy.app_scale_up.arn]
+}
+resource "aws_cloudwatch_metric_alarm" "low_cpu" {
+  alarm_name          = format("%s-app-high-cpu", var.project)
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = "2"
+  metric_name         = "CPUUtilization"
+  namespace           = "AWS/EC2"
+  period              = "120"
+  statistic           = "Average"
+  threshold           = "40"
+  alarm_description   = format("This metric monitors %s-app low cpu utilization", var.project)
+  dimensions = {
+    AutoScalingGroupName = aws_autoscaling_group.app_asg.name
+  }
+
+  alarm_actions = [aws_autoscaling_policy.app_scale_down.arn]
 }
