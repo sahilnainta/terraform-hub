@@ -63,6 +63,7 @@ resource "aws_elb" "app_elb" {
 
 #Creating Launch Configuration
 resource "aws_launch_configuration" "app_lc" {
+  name            = format("%s-lc", var.project)
   image_id        = var.ami
   instance_type   = var.instance_type
   security_groups = [aws_security_group.general_sg.id, aws_security_group.app_sg.id]
@@ -75,13 +76,14 @@ resource "aws_launch_configuration" "app_lc" {
 
 # Creating AutoScaling Group
 resource "aws_autoscaling_group" "app" {
-  launch_configuration = aws_launch_configuration.app_lc.id
-  vpc_zone_identifier  = aws_subnet.prv_sub.*.id
-  # availability_zones = data.aws_availability_zones.available.names
+  name                 = format("%s-asg", var.project)
   min_size          = 2
   max_size          = 10
   load_balancers    = [aws_elb.app_elb.name]
   health_check_type = "ELB"
+  launch_configuration = aws_launch_configuration.app_lc.id
+  vpc_zone_identifier  = aws_subnet.prv_sub.*.id
+  # availability_zones = data.aws_availability_zones.available.names
   tag {
     key                 = "Name"
     value               = format("%s-server", var.project)
