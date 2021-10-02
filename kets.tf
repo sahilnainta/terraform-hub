@@ -30,5 +30,5 @@ locals {
   bash           = "chmod 400 ${local.key_file}"
   bash_ssh       = "eval `ssh-agent` ; ssh-add -k ${local.key_file}"
   powershell     = "icacls ${local.key_file} /inheritancelevel:r /grant:r johndoe:R"
-  powershell_ssh = "${format("ssh-agent ; ssh-add -k ~/.ssh/%s.pem", var.key_name)}"
+  powershell_ssh = format("ssh-agent ; ssh-add -k ~/.ssh/%s.pem", var.key_name)
 }

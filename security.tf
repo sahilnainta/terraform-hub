@@ -2,9 +2,9 @@
 resource "aws_security_group" "general_sg" {
   description = "HTTP egress to anywhere"
   vpc_id      = aws_vpc.main.id
-  name        = "${format("%s-general-sg", var.project)}"
+  name        = format("%s-general-sg", var.project)
   tags = {
-    Name = "${format("%s-general-sg", var.project)}"
+    Name    = "${format("%s-general-sg", var.project)}"
     Project = var.project
   }
 }
@@ -12,9 +12,9 @@ resource "aws_security_group" "general_sg" {
 resource "aws_security_group" "bastion_sg" {
   description = "SSH ingress to Bastion and SSH egress to App"
   vpc_id      = aws_vpc.main.id
-  name        = "${format("%s-bastion-sg", var.project)}"
+  name        = format("%s-bastion-sg", var.project)
   tags = {
-    Name = "${format("%s-bastion-sg", var.project)}"
+    Name    = "${format("%s-bastion-sg", var.project)}"
     Project = var.project
   }
 }
@@ -22,9 +22,9 @@ resource "aws_security_group" "bastion_sg" {
 resource "aws_security_group" "app_sg" {
   description = "SSH ingress from Bastion and HTTP traffic ingress from ELB"
   vpc_id      = aws_vpc.main.id
-  name        = "${format("%s-app-sg", var.project)}"
+  name        = format("%s-app-sg", var.project)
   tags = {
-    Name = "${format("%s-app-sg", var.project)}"
+    Name    = "${format("%s-app-sg", var.project)}"
     Project = var.project
   }
 }
@@ -32,9 +32,9 @@ resource "aws_security_group" "app_sg" {
 resource "aws_security_group" "elb_sg" {
   description = "HTTP ingress from Anywhere"
   vpc_id      = aws_vpc.main.id
-  name        = "${format("%s-elb-sg", var.project)}"
+  name        = format("%s-elb-sg", var.project)
   tags = {
-    Name = "${format("%s-app-sg", var.project)}"
+    Name    = "${format("%s-app-sg", var.project)}"
     Project = var.project
   }
 }
@@ -91,13 +91,13 @@ resource "aws_security_group_rule" "in_ssh_app_from_bastion" {
   security_group_id        = aws_security_group.app_sg.id
 }
 resource "aws_security_group_rule" "in_http_elb_from_anywhere" {
-  type                     = "ingress"
-  description              = "Allow HTTP ingress from Anywhere"
-  from_port                = 80
-  to_port                  = 80
-  protocol                 = "tcp"
-  cidr_blocks              = ["0.0.0.0/0"]
-  security_group_id        = aws_security_group.elb_sg.id
+  type              = "ingress"
+  description       = "Allow HTTP ingress from Anywhere"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.elb_sg.id
 }
 
 resource "aws_security_group_rule" "in_http_app_from_elb" {
