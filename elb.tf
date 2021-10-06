@@ -31,7 +31,7 @@ resource "aws_elb" "app_elb" {
 #Creating Launch Configuration
 resource "aws_launch_configuration" "app_lc" {
   name            = format("%s-app-lc", var.project)
-  image_id        = var.ami
+  image_id        = data.aws_ami.amazon_linux_latest.id
   instance_type   = var.instance_type
   security_groups = [aws_security_group.general_sg.id, aws_security_group.app_sg.id]
   key_name        = var.key_name
@@ -44,7 +44,7 @@ resource "aws_launch_configuration" "app_lc" {
 # Creating AutoScaling Group
 resource "aws_autoscaling_group" "app_asg" {
   name              = format("%s-app-asg", var.project)
-  min_size          = 2
+  min_size          = var.app_instance_count
   max_size          = 10
   load_balancers    = [aws_elb.app_elb.name]
   health_check_type = "ELB"
@@ -92,7 +92,7 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu" {
   evaluation_periods  = "2"
   metric_name         = "CPUUtilization"
   namespace           = "AWS/EC2"
-  period              = "120"
+  period              = "60"
   statistic           = "Average"
   threshold           = "80"
   alarm_description   = format("This metric monitors %s-app high cpu utilization", var.project)
@@ -103,12 +103,12 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu" {
   alarm_actions = [aws_autoscaling_policy.app_scale_up.arn]
 }
 resource "aws_cloudwatch_metric_alarm" "low_cpu" {
-  alarm_name          = format("%s-app-high-cpu", var.project)
-  comparison_operator = "GreaterThanOrEqualToThreshold"
+  alarm_name          = format("%s-app-low-cpu", var.project)
+  comparison_operator = "LessThanOrEqualToThreshold"
   evaluation_periods  = "2"
   metric_name         = "CPUUtilization"
   namespace           = "AWS/EC2"
-  period              = "120"
+  period              = "60"
   statistic           = "Average"
   threshold           = "40"
   alarm_description   = format("This metric monitors %s-app low cpu utilization", var.project)

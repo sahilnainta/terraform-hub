@@ -3,9 +3,30 @@
 #   region = var.region
 # }
 
+data "aws_ami" "amazon_linux_latest" {
+  # executable_users = ["self"]
+  # name_regex       = "^myami-\\d{3}"
+  owners             = ["amazon"]
+  most_recent        = true
+
+  filter {
+    name   = "name"
+    values = ["amzn-ami-hvm-*"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+}
+
 resource "aws_instance" "jump_box" {
-  # ami           = data.aws_ssm_parameter.linux_latest_ami.value
-  ami                    = var.ami
+  ami                    = data.aws_ami.amazon_linux_latest.id
   instance_type          = var.instance_type
   key_name               = var.key_name
   subnet_id              = aws_subnet.pub_sub[0].id
@@ -18,7 +39,7 @@ resource "aws_instance" "jump_box" {
 }
 
 # resource "aws_instance" "app_instance" {
-#   ami           = var.ami
+#   ami           = data.aws_ami.amazon_linux_latest.id
 #   instance_type = "t2.micro"
 #   monitoring    = true
 #   key_name      = var.key_name

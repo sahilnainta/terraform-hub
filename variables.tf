@@ -18,7 +18,7 @@ variable "instance_type" {
 variable "app_instance_count" {
   description = "Instance Count"
   type        = string
-  default     = 1
+  default     = 2
 }
 
 variable "key_name" {
@@ -27,8 +27,8 @@ variable "key_name" {
   default     = "terraform-app-key"
 }
 
-variable "ami" {
-  description = "AMI"
-  type        = string
-  default     = "ami-0c473704d15f7317c"
-}
+# variable "ami" {
+#   description = "AMI"
+#   type        = string
+#   default     = "ami-0c473704d15f7317c"
+# }
