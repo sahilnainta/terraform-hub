@@ -30,7 +30,7 @@ resource "aws_elb" "app_elb" {
 
 #Creating Launch Configuration
 resource "aws_launch_configuration" "app_lc" {
-  name            = format("%s-app-lc", var.project)
+  name_prefix            = format("%s-app-lc-", var.project)
   image_id        = data.aws_ami.amazon_linux_latest.id
   instance_type   = var.instance_type
   security_groups = [aws_security_group.general_sg.id, aws_security_group.app_sg.id]
