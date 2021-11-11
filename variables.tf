@@ -27,6 +27,12 @@ variable "app_dns_prefix" {
   default     = "api.hub"
 }
 
+variable "bastion_host_prefix" {
+  description = "Bastion DNS prefix"
+  type        = string
+  default     = "bastion.hub"
+}
+
 variable "app_instance_count" {
   description = "Instance Count"
   type        = string

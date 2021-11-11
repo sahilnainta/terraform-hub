@@ -46,6 +46,15 @@ resource "aws_route53_record" "api" {
   }
 }
 
+resource "aws_route53_record" "bastion" {
+  allow_overwrite = true
+  zone_id = data.aws_route53_zone.app.zone_id
+  name    = format("%s.%s", var.bastion_host_prefix, var.app_hosted_dns)
+  type    = "A"
+  ttl     = "300"
+  records = [aws_instance.jump_box.public_ip]
+}
+
 #Creating Launch Configuration
 resource "aws_launch_configuration" "app_lc" {
   name_prefix            = format("%s-app-lc-", var.project)
