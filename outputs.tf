@@ -13,3 +13,7 @@ output "ssh_key_path" {
 output "elb-dns-name" {
   value = aws_elb.app_elb.dns_name
 }
+
+output "app-dns-name" {
+  value = aws_route53_record.api.name
+}

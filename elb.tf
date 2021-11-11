@@ -28,6 +28,24 @@ resource "aws_elb" "app_elb" {
   }
 }
 
+data "aws_route53_zone" "app" {
+  name         = "32nd.com"
+  private_zone = false
+}
+
+resource "aws_route53_record" "api" {
+  allow_overwrite = true
+  zone_id = data.aws_route53_zone.app.zone_id
+  name    = format("%s.%s", var.app_dns_prefix, var.app_hosted_dns)
+  type    = "A"
+
+  alias {
+    name                   = aws_elb.app_elb.dns_name
+    zone_id                = aws_elb.app_elb.zone_id
+    evaluate_target_health = true
+  }
+}
+
 #Creating Launch Configuration
 resource "aws_launch_configuration" "app_lc" {
   name_prefix            = format("%s-app-lc-", var.project)

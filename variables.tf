@@ -15,6 +15,18 @@ variable "instance_type" {
   default     = "t2.micro"
 }
 
+variable "app_hosted_dns" {
+  description = "Route53 Hosted Zone Name"
+  type        = string
+  default     = "32nd.com"
+}
+
+variable "app_dns_prefix" {
+  description = "App DNS prefix"
+  type        = string
+  default     = "api.hub"
+}
+
 variable "app_instance_count" {
   description = "Instance Count"
   type        = string
