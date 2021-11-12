@@ -21,6 +21,7 @@ resource "aws_security_group" "bastion_sg" {
 
 resource "aws_security_group" "app_sg" {
   description = "SSH ingress from Bastion and HTTP traffic ingress from ELB"
+  # description = "SSH ingress from Bastion, HTTP ingress from ELB & mongo ingress from Anywhere"
   vpc_id      = aws_vpc.main.id
   name        = format("%s-app-sg", var.project)
   tags = {
@@ -60,7 +61,17 @@ resource "aws_security_group_rule" "out_https" {
   security_group_id = aws_security_group.general_sg.id
 }
 
-resource "aws_security_group_rule" "out_ssh_bastion" {
+resource "aws_security_group_rule" "out_mongo_app_to_anywhere" {
+  type              = "egress"
+  description       = "Allow mongo egress from App to anywhere"
+  from_port         = 27017
+  to_port           = 27017
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.app_sg.id
+}
+
+resource "aws_security_group_rule" "out_ssh_bastion_to_app" {
   type                     = "egress"
   description              = "Allow SSH egress on Bastion to App"
   from_port                = 22

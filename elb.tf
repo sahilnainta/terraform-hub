@@ -28,33 +28,6 @@ resource "aws_elb" "app_elb" {
   }
 }
 
-data "aws_route53_zone" "app" {
-  name         = "32nd.com"
-  private_zone = false
-}
-
-resource "aws_route53_record" "api" {
-  allow_overwrite = true
-  zone_id = data.aws_route53_zone.app.zone_id
-  name    = format("%s.%s", var.app_dns_prefix, var.app_hosted_dns)
-  type    = "A"
-
-  alias {
-    name                   = aws_elb.app_elb.dns_name
-    zone_id                = aws_elb.app_elb.zone_id
-    evaluate_target_health = true
-  }
-}
-
-resource "aws_route53_record" "bastion" {
-  allow_overwrite = true
-  zone_id = data.aws_route53_zone.app.zone_id
-  name    = format("%s.%s", var.bastion_host_prefix, var.app_hosted_dns)
-  type    = "A"
-  ttl     = "300"
-  records = [aws_instance.jump_box.public_ip]
-}
-
 #Creating Launch Configuration
 resource "aws_launch_configuration" "app_lc" {
   name_prefix            = format("%s-app-lc-", var.project)
@@ -62,7 +35,7 @@ resource "aws_launch_configuration" "app_lc" {
   instance_type   = var.instance_type
   security_groups = [aws_security_group.general_sg.id, aws_security_group.app_sg.id]
   key_name        = var.key_name
-  user_data       = file("install_httpd.sh")
+  # user_data       = file("prepare_ami.sh")
   lifecycle {
     create_before_destroy = true
   }
@@ -83,6 +56,15 @@ resource "aws_autoscaling_group" "app_asg" {
   lifecycle {
     create_before_destroy = true
   }
+
+  instance_refresh {
+    strategy = "Rolling"
+    preferences {
+      min_healthy_percentage = 50
+    }
+    triggers = ["tag"]
+  }
+
   tag {
     key                 = "Name"
     value               = format("%s-app-server", var.project)
