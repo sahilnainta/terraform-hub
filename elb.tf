@@ -35,7 +35,7 @@ resource "aws_launch_configuration" "app_lc" {
   instance_type   = var.instance_type
   security_groups = [aws_security_group.general_sg.id, aws_security_group.app_sg.id]
   key_name        = var.key_name
-  # user_data       = file("prepare_ami.sh")
+  user_data       = file("prepare_ami.sh")
   lifecycle {
     create_before_destroy = true
   }
@@ -64,7 +64,7 @@ resource "aws_autoscaling_group" "app_asg" {
     }
     triggers = ["tag"]
   }
-
+  
   tag {
     key                 = "Name"
     value               = format("%s-app-server", var.project)
