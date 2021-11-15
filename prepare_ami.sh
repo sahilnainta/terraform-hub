@@ -10,9 +10,13 @@ export NVM_DIR="/home/ec2-user/.nvm" && (
   git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1)`
 ) && \. "$NVM_DIR/nvm.sh"
 
-export NVM_DIR="/home/ec2-user/.nvm"
+echo 'export NVM_DIR="/home/ec2-user/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion' | sudo tee -a /home/ec2-user/.bashrc
+
+source /home/ec2-user/.bashrc
+
+cd /home/ec2-user
 
 nvm install node
 npm install -g yarn
@@ -39,10 +43,14 @@ echo 'location /graphql {
 
 sudo systemctl restart nginx
 
-node -r esm src/index.js
+# node -r esm src/index.js
 
 # PM2 config
 
-# npm i -g pm2
-# pm2 start index.js --node-args="-r esm"
-# pm2 save
+yarn global add pm2
+
+# sudo env PATH=$PATH:/home/ec2-user/.nvm/versions/node/v17.1.0/bin /usr/local/share/.config/yarn/global/node_modules/pm2/bin/pm2 startup systemd -u ec2-user --hp /home/ec2-user
+PM2_HOME=/home/ec2-user/.pm2 pm2 start src/index.js -i max --node-args="-r esm" --wait-ready --name "hub-graphql"
+pm2 save
+
+sudo chown ec2-user:ec2-user /home/ec2-user/.pm2/rpc.sock /home/ec2-user/.pm2/pub.sock
