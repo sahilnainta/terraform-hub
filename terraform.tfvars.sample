@@ -1,0 +1,7 @@
+project         = "hub"
+region          = "ap-south-1"
+instance_type   = "t2.micro"
+key_name        = "hub-key"
+app_hosted_dns  = "32nd.com"
+app_dns_prefix  = "api.hub"
+bastion_host_prefix  = "bastion.hub"
