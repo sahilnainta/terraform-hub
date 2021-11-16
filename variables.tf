@@ -18,25 +18,25 @@ variable "instance_type" {
 variable "app_hosted_dns" {
   description = "Route53 Hosted Zone Name"
   type        = string
-  default     = "32nd.com"
+  default     = "test.com"
 }
 
 variable "app_dns_prefix" {
   description = "App DNS prefix"
   type        = string
-  default     = "api.hub"
+  default     = "app.terraform-project"
 }
 
 variable "bastion_host_prefix" {
   description = "Bastion DNS prefix"
   type        = string
-  default     = "bastion.hub"
+  default     = "bastion.terraform-project"
 }
 
 variable "app_instance_count" {
   description = "Instance Count"
   type        = string
-  default     = 2
+  default     = 1
 }
 
 variable "key_name" {
