@@ -36,6 +36,31 @@ resource "aws_instance" "jump_box" {
     Project = var.project
     Name    = "bastion"
   }
+
+  provisioner "file" {
+    source        = "${format("~/.ssh/%s.pem", var.key_name)}"
+    destination   = "~/.ssh/app-key.pem"
+    
+    connection {
+      type        = "ssh"
+      user        = "ec2-user"
+      private_key = file("${format("~/.ssh/%s.pem", var.key_name)}")
+      host        = self.public_ip
+    }
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "chmod 400 ~/.ssh/app-key.pem",
+    ]
+
+    connection {
+      type        = "ssh"
+      user        = "ec2-user"
+      private_key = file("${format("~/.ssh/%s.pem", var.key_name)}")
+      host        = self.public_ip
+    }
+  }
 }
 
 # resource "aws_instance" "app_instance" {
