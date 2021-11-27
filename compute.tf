@@ -27,7 +27,7 @@ data "aws_ami" "amazon_linux_latest" {
 
 resource "aws_instance" "jump_box" {
   ami                    = data.aws_ami.amazon_linux_latest.id
-  instance_type          = var.instance_type
+  instance_type          = "t2.micro"
   key_name               = var.key_name
   subnet_id              = aws_subnet.pub_sub[0].id
   vpc_security_group_ids = [aws_security_group.general_sg.id, aws_security_group.bastion_sg.id]

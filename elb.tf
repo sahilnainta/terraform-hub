@@ -31,11 +31,11 @@ resource "aws_elb" "app_elb" {
 #Creating Launch Configuration
 resource "aws_launch_configuration" "app_lc" {
   name_prefix            = format("%s-app-lc-", var.project)
-  image_id        = data.aws_ami.amazon_linux_latest.id
-  instance_type   = var.instance_type
+  image_id        = var.app_ami != "" ? var.app_ami : data.aws_ami.amazon_linux_latest.id
+  instance_type   = var.instance_type   
   security_groups = [aws_security_group.general_sg.id, aws_security_group.app_sg.id]
   key_name        = var.key_name
-  user_data       = file("prepare_ami.sh")
+  user_data       = var.app_ami != "" ? file("start_app.sh") : file("prepare_ami.sh")
   lifecycle {
     create_before_destroy = true
   }
