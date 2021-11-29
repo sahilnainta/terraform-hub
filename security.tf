@@ -1,6 +1,6 @@
 # Create Security Groups
 resource "aws_security_group" "general_sg" {
-  description = "HTTP egress to anywhere"
+  description = "HTTP/HTTPS egress to anywhere"
   vpc_id      = aws_vpc.main.id
   name        = format("%s-general-sg", var.project)
   tags = {
@@ -20,7 +20,7 @@ resource "aws_security_group" "bastion_sg" {
 }
 
 resource "aws_security_group" "app_sg" {
-  description = "SSH ingress from Bastion and HTTP traffic ingress from ELB"
+  description = "SSH ingress from Bastion and HTTP ingress from ELB"
   # description = "SSH ingress from Bastion, HTTP ingress from ELB & mongo ingress from Anywhere"
   vpc_id      = aws_vpc.main.id
   name        = format("%s-app-sg", var.project)
@@ -31,11 +31,11 @@ resource "aws_security_group" "app_sg" {
 }
 
 resource "aws_security_group" "elb_sg" {
-  description = "HTTP ingress from Anywhere"
+  description = "HTTP/HTTPS ingress from Anywhere"
   vpc_id      = aws_vpc.main.id
   name        = format("%s-elb-sg", var.project)
   tags = {
-    Name    = "${format("%s-app-sg", var.project)}"
+    Name    = "${format("%s-elb-sg", var.project)}"
     Project = var.project
   }
 }
@@ -53,7 +53,7 @@ resource "aws_security_group_rule" "out_http" {
 
 resource "aws_security_group_rule" "out_https" {
   type              = "egress"
-  description       = "Allow HTTP egress to anywhere"
+  description       = "Allow HTTPS egress to anywhere"
   from_port         = 443
   to_port           = 443
   protocol          = "tcp"
@@ -116,6 +116,16 @@ resource "aws_security_group_rule" "in_http_elb_from_anywhere" {
   description       = "Allow HTTP ingress from Anywhere"
   from_port         = 80
   to_port           = 80
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.elb_sg.id
+}
+
+resource "aws_security_group_rule" "in_https_elb_from_anywhere" {
+  type              = "ingress"
+  description       = "Allow HTTPS ingress from Anywhere"
+  from_port         = 443
+  to_port           = 443
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.elb_sg.id
