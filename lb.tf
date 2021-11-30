@@ -7,8 +7,6 @@ resource "aws_lb" "app_lb" {
   security_groups = [aws_security_group.general_sg.id, aws_security_group.elb_sg.id, aws_security_group.app_sg.id]
   subnets         = aws_subnet.pub_sub.*.id
 
-  enable_deletion_protection = true
-
   idle_timeout                     = 100
   enable_cross_zone_load_balancing = true
   
