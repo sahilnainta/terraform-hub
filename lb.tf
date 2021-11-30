@@ -13,11 +13,11 @@ resource "aws_lb" "app_lb" {
   enable_cross_zone_load_balancing = true
   
 
-  # access_logs {
-  #   bucket  = aws_s3_bucket.lb_logs.bucket
-  #   prefix  = "test-lb"
-  #   enabled = true
-  # }
+  access_logs {
+    bucket  = aws_s3_bucket.lb_logs.bucket
+    prefix  = format("%s-app-log-", var.project)
+    enabled = true
+  }
 
   tags = {
     Name    = "${format("%s-app-lb", var.project)}"
