@@ -23,7 +23,7 @@ resource "local_file" "my_key_file" {
 
 locals {
   is_windows = substr(pathexpand("~"), 0, 1) == "/" ? false : true
-  key_file   = pathexpand(format("~/.ssh/%s.pem", var.key_name))
+  key_file   = format("~/.ssh/%s.pem", var.key_name)
 }
 
 locals {
