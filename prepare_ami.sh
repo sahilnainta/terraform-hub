@@ -28,7 +28,7 @@ sudo yum -y install nginx
 
 sudo systemctl start nginx
 cd /home/ec2-user
-git clone --depth 1 -b master https://sahilnainta:piertivetechsahikl@bitbucket.org/kundanguesthouser/hub-nodejs.git
+git clone --depth 1 -b master https://sahilnainta:sahil32nd@bitbucket.org/vikas_gh/hub-nodejs.git
 cd /home/ec2-user/hub-nodejs
 cp .env.example .env
 
