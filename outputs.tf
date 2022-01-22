@@ -25,3 +25,15 @@ output "lb_dns_name" {
 output "app_dns_name" {
   value = aws_route53_record.api.name
 }
+
+output "staging_app_dns_name" {
+  value = aws_route53_record.staging_api.name
+}
+
+output "qa_app_dns_name" {
+  value = aws_route53_record.qa_api.name
+}
+
+output "dev_app_dns_name" {
+  value = aws_route53_record.dev_api.name
+}
