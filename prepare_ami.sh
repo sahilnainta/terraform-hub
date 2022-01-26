@@ -94,7 +94,7 @@ cd /home/ec2-user
 mkdir staging
 cd /home/ec2-user/staging
 
-git clone --depth 1 -b master https://sahilnainta:sahil32nd@bitbucket.org/vikas_gh/hub-nodejs.git
+git clone -b master https://sahilnainta:sahil32nd@bitbucket.org/vikas_gh/hub-nodejs.git
 cd hub-nodejs
 cp .env.staging .env
 
@@ -111,7 +111,7 @@ cd /home/ec2-user
 mkdir qa
 cd /home/ec2-user/qa
 
-git clone --depth 1 -b master https://sahilnainta:sahil32nd@bitbucket.org/vikas_gh/hub-nodejs.git
+git clone -b master https://sahilnainta:sahil32nd@bitbucket.org/vikas_gh/hub-nodejs.git
 cd hub-nodejs
 cp .env.qa .env
 
@@ -127,7 +127,7 @@ cd /home/ec2-user
 mkdir dev
 cd /home/ec2-user/dev
 
-git clone --depth 1 -b master https://sahilnainta:sahil32nd@bitbucket.org/vikas_gh/hub-nodejs.git
+git clone -b master https://sahilnainta:sahil32nd@bitbucket.org/vikas_gh/hub-nodejs.git
 cd hub-nodejs
 cp .env.dev .env
 
