@@ -80,7 +80,8 @@ resource "aws_launch_configuration" "app_lc" {
   instance_type   = var.instance_type   
   security_groups = [aws_security_group.general_sg.id, aws_security_group.app_sg.id]
   key_name        = var.key_name
-  user_data       = var.app_ami != "" ? file("start_app.sh") : file("prepare_ami.sh")
+  iam_instance_profile = "${aws_iam_instance_profile.ssm_profile.id}"
+  user_data       = var.app_ami != "" ? file("start_app.sh") : file("prepare_ami.sh") 
   lifecycle {
     create_before_destroy = true
   }

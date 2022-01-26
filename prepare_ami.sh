@@ -4,6 +4,11 @@ sudo su - ec2-user
 
 sudo yum install git -y
 
+sudo yum install amazon-cloudwatch-agent -y
+
+# ssm parameter name for cloudwatch agent config file is hardcoded - hub-cwagent-config
+sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c ssm:hub-cwagent-config
+
 export NVM_DIR="/home/ec2-user/.nvm" && (
   git clone https://github.com/nvm-sh/nvm.git "$NVM_DIR"
   cd "$NVM_DIR"
