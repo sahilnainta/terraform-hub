@@ -78,7 +78,7 @@ cd /home/ec2-user
 mkdir prod
 cd /home/ec2-user/prod
 
-git clone --depth 1 -b master https://sahilnainta:sahil32nd@bitbucket.org/vikas_gh/hub-nodejs.git
+git clone --depth 1 -b master https://sahilnainta:Jyq8jWxKD9kJN5J6ABT8@bitbucket.org/vikas_gh/hub-nodejs.git
 cd hub-nodejs
 cp .env.production .env
 
@@ -94,7 +94,7 @@ cd /home/ec2-user
 mkdir staging
 cd /home/ec2-user/staging
 
-git clone -b master https://sahilnainta:sahil32nd@bitbucket.org/vikas_gh/hub-nodejs.git
+git clone -b master https://sahilnainta:Jyq8jWxKD9kJN5J6ABT8@bitbucket.org/vikas_gh/hub-nodejs.git
 cd hub-nodejs
 cp .env.staging .env
 
@@ -111,7 +111,7 @@ cd /home/ec2-user
 mkdir qa
 cd /home/ec2-user/qa
 
-git clone -b master https://sahilnainta:sahil32nd@bitbucket.org/vikas_gh/hub-nodejs.git
+git clone -b master https://sahilnainta:Jyq8jWxKD9kJN5J6ABT8@bitbucket.org/vikas_gh/hub-nodejs.git
 cd hub-nodejs
 cp .env.qa .env
 
@@ -127,7 +127,7 @@ cd /home/ec2-user
 mkdir dev
 cd /home/ec2-user/dev
 
-git clone -b master https://sahilnainta:sahil32nd@bitbucket.org/vikas_gh/hub-nodejs.git
+git clone -b master https://sahilnainta:Jyq8jWxKD9kJN5J6ABT8@bitbucket.org/vikas_gh/hub-nodejs.git
 cd hub-nodejs
 cp .env.dev .env
 
