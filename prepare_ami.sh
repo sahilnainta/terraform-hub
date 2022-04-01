@@ -47,6 +47,12 @@ echo  'server {
       proxy_set_header Upgrade $http_upgrade;
       proxy_set_header Connection "upgrade";
     }
+
+  location /rest {
+      proxy_set_header  X-Real-IP  $remote_addr;
+      proxy_set_header  Host       $http_host;
+      proxy_pass        http://127.0.0.1:6000;
+    }
 }
 server {
   server_name qa.api.hub.32nd.com;
@@ -59,6 +65,12 @@ server {
       proxy_http_version 1.1;
       proxy_set_header Upgrade $http_upgrade;
       proxy_set_header Connection "upgrade";
+    }
+
+  location /rest {
+      proxy_set_header  X-Real-IP  $remote_addr;
+      proxy_set_header  Host       $http_host;
+      proxy_pass        http://127.0.0.1:7000;
     }
 }
 server {
@@ -73,6 +85,12 @@ server {
       proxy_set_header Upgrade $http_upgrade;
       proxy_set_header Connection "upgrade";
     }
+
+  location /rest {
+      proxy_set_header  X-Real-IP  $remote_addr;
+      proxy_set_header  Host       $http_host;
+      proxy_pass        http://127.0.0.1:8000;
+    }
 }
 server {
   server_name api.hub.32nd.com;
@@ -85,6 +103,12 @@ server {
       proxy_http_version 1.1;
       proxy_set_header Upgrade $http_upgrade;
       proxy_set_header Connection "upgrade";
+    }
+
+  location /rest {
+      proxy_set_header  X-Real-IP  $remote_addr;
+      proxy_set_header  Host       $http_host;
+      proxy_pass        http://127.0.0.1:5000;
     }
 }' | sudo tee /etc/nginx/conf.d/server.conf
 
