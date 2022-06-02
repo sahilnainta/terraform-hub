@@ -8,6 +8,8 @@ sudo systemctl start nginx
 
 source /home/ec2-user/.bashrc
 
+redis-server --daemonize yes
+
 ### prod checkout & setup
 cd /home/ec2-user
 mkdir prod
