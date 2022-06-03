@@ -23,7 +23,8 @@ source /home/ec2-user/.bashrc
 
 cd /home/ec2-user
 
-nvm install node
+# nvm install node
+nvm install 16
 npm install -g yarn
 
 sudo amazon-linux-extras list | grep nginx
@@ -204,4 +205,4 @@ pm2 save
 # sudo chown ec2-user:ec2-user /home/ec2-user/.pm2/rpc.sock /home/ec2-user/.pm2/pub.sock
 sudo chown ec2-user:ec2-user /home/ec2-user/.pm2/rpc.sock /home/ec2-user/.pm2/pub.sock /home/ec2-user/.pm2/reload.lock
 # yarn install from ec2-user in case required
-sudo chown -R ec2-user /home/ec2-user/prod /home/ec2-user/staging /home/ec2-user/qa /home/ec2-user/dev 
+# sudo chown -R ec2-user /home/ec2-user/prod /home/ec2-user/staging /home/ec2-user/qa /home/ec2-user/dev 
