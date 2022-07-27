@@ -3,6 +3,22 @@ data "aws_route53_zone" "hosted_zone" {
   private_zone = false
 }
 
+resource "aws_route53_zone" "private" {
+  name = var.private_dns
+  force_destroy = true
+  vpc {
+    vpc_id = aws_vpc.main.id
+  }
+}
+
+resource "aws_route53_record" "redis" {
+  allow_overwrite = true
+  zone_id = aws_route53_zone.private.zone_id
+  name    = format("%s.%s", var.redis_host_prefix, var.private_dns)
+  type    = "CNAME"
+  ttl     = "30"
+  records = [aws_elasticache_cluster.redis.cache_nodes[0].address]
+}
 resource "aws_route53_record" "bastion" {
   allow_overwrite = true
   zone_id = data.aws_route53_zone.hosted_zone.zone_id

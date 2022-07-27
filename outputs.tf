@@ -38,7 +38,11 @@ output "dev_app_dns_name" {
   value = aws_route53_record.dev_api.name
 }
 output "redis_node_address" {
-  value       = aws_elasticache_cluster.redis.cache_nodes[0].address
-  description = "The address of the endpoint for the primary node in the replication group, if the cluster mode is disabled."
+  value       = aws_elasticache_cluster.redis.cache_nodes[*].address
+  description = "The address of the endpoint for the primary node in redis cluster, if the cluster mode is disabled."
+}
+
+output "redis_host_name" {
+  value = aws_route53_record.redis.name
 }
 

@@ -1,7 +1,7 @@
 variable "project" {
   description = "Project Name"
   type        = string
-  default     = "terraform-project"
+  default     = "terraform"
 }
 variable "region" {
   description = "AWS Region"
@@ -24,13 +24,25 @@ variable "app_hosted_dns" {
 variable "app_dns_prefix" {
   description = "App DNS prefix"
   type        = string
-  default     = "app.terraform-project"
+  default     = "app.terraform"
 }
 
 variable "bastion_host_prefix" {
   description = "Bastion DNS prefix"
   type        = string
-  default     = "bastion.terraform-project"
+  default     = "bastion.terraform"
+}
+
+variable "private_dns" {
+  description = "Route53 Hosted Zone Name"
+  type        = string
+  default     = "app.terraform"
+}
+
+variable "redis_host_prefix" {
+  description = "Redis DNS prefix"
+  type        = string
+  default     = "redis"
 }
 
 variable "app_instance_count" {
