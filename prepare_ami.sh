@@ -142,7 +142,12 @@ cd /home/ec2-user
 mkdir prod
 cd /home/ec2-user/prod
 
-git clone --depth 1 -b master https://sahilnainta:Jyq8jWxKD9kJN5J6ABT8@bitbucket.org/vikas_gh/hub-nodejs.git
+# fetch latest tag
+latestTag=$(git ls-remote --tags --refs --sort="v:refname" https://sahilnainta:Jyq8jWxKD9kJN5J6ABT8@bitbucket.org/vikas_gh/hub-nodejs.git | tail -n1 | sed 's/.*\///')
+
+# clone latest tag
+git clone --depth 1 -b $latestTag https://sahilnainta:Jyq8jWxKD9kJN5J6ABT8@bitbucket.org/vikas_gh/hub-nodejs.git
+
 cd hub-nodejs
 cp .env.production .env
 
