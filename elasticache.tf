@@ -1,3 +1,13 @@
+resource "aws_elasticache_subnet_group" "redis_subnet" {
+  name       = "${format("%s-redis-subnet", var.project)}"
+  subnet_ids = "${aws_subnet.prv_sub.*.id}"
+  tags = {
+    Name    = "${format("%s-redis-subnet", var.project)}"
+    Tier    = "Private"
+    Project = var.project
+  }
+}
+
 resource "aws_elasticache_cluster" "redis" {
   cluster_id           = "${format("%s-redis", var.project)}"
   engine               = "redis"
@@ -7,6 +17,9 @@ resource "aws_elasticache_cluster" "redis" {
   engine_version       = "3.2.10"
   port                 = 6379
 
+  subnet_group_name   = "${aws_elasticache_subnet_group.redis_subnet.name}"
+  security_group_ids  = [aws_security_group.redis_sg.id]
+
   snapshot_retention_limit    = 5
   snapshot_window             = "00:00-05:00"
 
@@ -15,17 +28,6 @@ resource "aws_elasticache_cluster" "redis" {
     Project = var.project
   }
 }
-
-
-# resource "aws_elasticache_subnet_group" "redis_subnet" {
-#   name       = "${format("%s-redis-subnet", var.project)}"
-#   subnet_ids = ["${aws_subnet.prv_sub.*.id}"]
-#   tags = {
-#     Name    = "${format("%s-redis-subnet", var.project)}"
-#     Tier    = "Private"
-#     Project = var.project
-#   }
-# }
 
 # resource "aws_elasticache_replication_group" "redis_replication_group" {
 #   # preferred_cache_cluster_azs = ["us-west-2a", "us-west-2b"]

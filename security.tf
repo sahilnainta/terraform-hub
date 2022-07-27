@@ -40,6 +40,16 @@ resource "aws_security_group" "elb_sg" {
   }
 }
 
+resource "aws_security_group" "redis_sg" {
+  description = "redis 6379 ingress from Anywhere"
+  vpc_id      = aws_vpc.main.id
+  name        = format("%s-redis-sg", var.project)
+  tags = {
+    Name    = "${format("%s-redis-sg", var.project)}"
+    Project = var.project
+  }
+}
+
 # Configure Egress rules on Security Groups
 resource "aws_security_group_rule" "out_http" {
   type              = "egress"
@@ -66,6 +76,16 @@ resource "aws_security_group_rule" "out_mongo_app_to_anywhere" {
   description       = "Allow mongo egress from App to anywhere"
   from_port         = 27017
   to_port           = 27017
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.app_sg.id
+}
+
+resource "aws_security_group_rule" "out_redis_app_to_anywhere" {
+  type              = "egress"
+  description       = "Allow redis egress from App to anywhere"
+  from_port         = 6379
+  to_port           = 6379
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.app_sg.id
@@ -139,4 +159,13 @@ resource "aws_security_group_rule" "in_http_app_from_elb" {
   protocol                 = "tcp"
   source_security_group_id = aws_security_group.elb_sg.id
   security_group_id        = aws_security_group.app_sg.id
+}
+resource "aws_security_group_rule" "in_6379_redis_from_anywhere" {
+  type              = "ingress"
+  description       = "Allow Redis 6379 ingress from Anywhere"
+  from_port         = 6379
+  to_port           = 6379
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.redis_sg.id
 }

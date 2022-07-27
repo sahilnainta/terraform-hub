@@ -37,3 +37,8 @@ output "qa_app_dns_name" {
 output "dev_app_dns_name" {
   value = aws_route53_record.dev_api.name
 }
+output "redis_node_address" {
+  value       = aws_elasticache_cluster.redis.cache_nodes[0].address
+  description = "The address of the endpoint for the primary node in the replication group, if the cluster mode is disabled."
+}
+
