@@ -12,9 +12,8 @@ redis-server --daemonize yes
 
 ### prod checkout & setup
 cd /home/ec2-user
-mkdir prod
+sudo rm -rf prod && mkdir prod
 cd /home/ec2-user/prod
-sudo rm -rf hub-nodejs
 
 # fetch latest tag
 latestTag=$(sudo git ls-remote --tags --refs --sort="v:refname" https://sahilnainta:Jyq8jWxKD9kJN5J6ABT8@bitbucket.org/vikas_gh/hub-nodejs.git | tail -n1 | sed 's/.*\///')
@@ -35,9 +34,8 @@ pm2 save
 
 ### staging checkout & setup
 cd /home/ec2-user
-mkdir staging
+sudo rm -rf staging && mkdir staging
 cd /home/ec2-user/staging
-sudo rm -rf hub-nodejs
 git clone -b master https://sahilnainta:Jyq8jWxKD9kJN5J6ABT8@bitbucket.org/vikas_gh/hub-nodejs.git
 cd hub-nodejs
 cp .env.staging .env
@@ -52,9 +50,8 @@ pm2 save
 
 ### qa checkout & setup
 cd /home/ec2-user
-mkdir qa
+sudo rm -rf qa && mkdir qa
 cd /home/ec2-user/qa
-
 git clone -b master https://sahilnainta:Jyq8jWxKD9kJN5J6ABT8@bitbucket.org/vikas_gh/hub-nodejs.git
 cd hub-nodejs
 cp .env.qa .env
@@ -69,9 +66,8 @@ pm2 save
 
 ### dev checkout & setup
 cd /home/ec2-user
-mkdir dev
+sudo rm -rf dev && mkdir dev
 cd /home/ec2-user/dev
-
 git clone -b master https://sahilnainta:Jyq8jWxKD9kJN5J6ABT8@bitbucket.org/vikas_gh/hub-nodejs.git
 cd hub-nodejs
 cp .env.dev .env
