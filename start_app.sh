@@ -16,10 +16,10 @@ sudo rm -rf prod && mkdir prod
 cd /home/ec2-user/prod
 
 # fetch latest tag
-latestTag=$(sudo git ls-remote --tags --refs --sort="v:refname" https://sahilnainta:Jyq8jWxKD9kJN5J6ABT8@bitbucket.org/vikas_gh/hub-nodejs.git | tail -n1 | sed 's/.*\///')
+latestTag=$(sudo git ls-remote --tags --refs --sort="v:refname" https://32nd-hub-admin:ATBB3x8GXLXgqaNv9TV7MWS66GTSBD45A5F0@bitbucket.org/sahil32nd/hub-nodejs.git | tail -n1 | sed 's/.*\///')
 
 # clone latest tag
-sudo git clone --depth 1 -b $latestTag https://sahilnainta:Jyq8jWxKD9kJN5J6ABT8@bitbucket.org/vikas_gh/hub-nodejs.git
+sudo git clone --depth 1 -b $latestTag https://32nd-hub-admin:ATBB3x8GXLXgqaNv9TV7MWS66GTSBD45A5F0@bitbucket.org/sahil32nd/hub-nodejs.git
 
 cd hub-nodejs
 cp .env.production .env
@@ -36,7 +36,7 @@ pm2 save
 cd /home/ec2-user
 sudo rm -rf staging && mkdir staging
 cd /home/ec2-user/staging
-git clone -b master https://sahilnainta:Jyq8jWxKD9kJN5J6ABT8@bitbucket.org/vikas_gh/hub-nodejs.git
+git clone -b master https://32nd-hub-admin:ATBB3x8GXLXgqaNv9TV7MWS66GTSBD45A5F0@bitbucket.org/sahil32nd/hub-nodejs.git
 cd hub-nodejs
 cp .env.staging .env
 
@@ -52,7 +52,7 @@ pm2 save
 cd /home/ec2-user
 sudo rm -rf qa && mkdir qa
 cd /home/ec2-user/qa
-git clone -b master https://sahilnainta:Jyq8jWxKD9kJN5J6ABT8@bitbucket.org/vikas_gh/hub-nodejs.git
+git clone -b master https://32nd-hub-admin:ATBB3x8GXLXgqaNv9TV7MWS66GTSBD45A5F0@bitbucket.org/sahil32nd/hub-nodejs.git
 cd hub-nodejs
 cp .env.qa .env
 
@@ -68,7 +68,7 @@ pm2 save
 cd /home/ec2-user
 sudo rm -rf dev && mkdir dev
 cd /home/ec2-user/dev
-git clone -b master https://sahilnainta:Jyq8jWxKD9kJN5J6ABT8@bitbucket.org/vikas_gh/hub-nodejs.git
+git clone -b master https://32nd-hub-admin:ATBB3x8GXLXgqaNv9TV7MWS66GTSBD45A5F0@bitbucket.org/sahil32nd/hub-nodejs.git
 cd hub-nodejs
 cp .env.dev .env
 
