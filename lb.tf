@@ -32,10 +32,10 @@ resource "aws_lb_target_group" "app_servers" {
   health_check {
     healthy_threshold   = 2
     unhealthy_threshold = 2
-    timeout             = 3
+    timeout             = 3 // Set 10 Seconds -> wait for this much time for response
     interval            = 30
-    path                = "/index.html"
-    port                = 80
+    path                = "/index.html" // 1. Add /graphql endpoint
+    port                = 80 // Change port to 443
   }
 
   tags = {

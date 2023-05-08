@@ -28,7 +28,7 @@ yarn install
 
 # start production PM2
 cd /home/ec2-user/prod/hub-nodejs
-PM2_HOME=/home/ec2-user/.pm2 pm2 start src/index.js -i max --node-args="-r esm" --wait-ready --name "prod-hub-graphql"
+PM2_HOME=/home/ec2-user/.pm2 pm2 start src/index.js -i max --node-args="-r esm" --wait-ready --name "prod-club-graphql"
 pm2 save
 
 
@@ -44,7 +44,7 @@ yarn install
 
 # start staging PM2
 cd /home/ec2-user/staging/hub-nodejs
-PM2_HOME=/home/ec2-user/.pm2 pm2 start src/index.js -i max --node-args="-r esm" --wait-ready --name "staging-hub-graphql"
+PM2_HOME=/home/ec2-user/.pm2 pm2 start src/index.js -i max --node-args="-r esm" --wait-ready --name "staging-club-graphql"
 pm2 save
 
 
@@ -60,7 +60,7 @@ yarn install
 
 # start qa PM2
 cd /home/ec2-user/qa/hub-nodejs
-PM2_HOME=/home/ec2-user/.pm2 pm2 start src/index.js -i max --node-args="-r esm" --wait-ready --name "qa-hub-graphql"
+PM2_HOME=/home/ec2-user/.pm2 pm2 start src/index.js -i max --node-args="-r esm" --wait-ready --name "qa-club-graphql"
 pm2 save
 
 
@@ -76,7 +76,7 @@ yarn install
 
 # start dev PM2
 cd /home/ec2-user/dev/hub-nodejs
-PM2_HOME=/home/ec2-user/.pm2 pm2 start src/index.js -i max --node-args="-r esm" --wait-ready --name "dev-hub-graphql"
+PM2_HOME=/home/ec2-user/.pm2 pm2 start src/index.js -i max --node-args="-r esm" --wait-ready --name "dev-club-graphql"
 pm2 save
 
 # sudo chown ec2-user:ec2-user /home/ec2-user/.pm2/rpc.sock /home/ec2-user/.pm2/pub.sock

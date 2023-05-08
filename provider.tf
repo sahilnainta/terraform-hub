@@ -9,7 +9,7 @@ terraform {
     organization = "32nd"
 
     workspaces {
-      name = "hub-app-backend"
+      name = "club-app-backend"
     }
   }
 }

@@ -6,8 +6,8 @@ sudo yum install git -y
 
 sudo yum install amazon-cloudwatch-agent -y
 
-# ssm parameter name for cloudwatch agent config file is hardcoded - hub-cwagent-config
-sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c ssm:hub-cwagent-config
+# ssm parameter name for cloudwatch agent config file is hardcoded - club-cwagent-config
+sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c ssm:club-cwagent-config
 
 export NVM_DIR="/home/ec2-user/.nvm" && (
   git clone https://github.com/nvm-sh/nvm.git "$NVM_DIR"
@@ -37,7 +37,7 @@ sudo systemctl start nginx
 # nginx configuration
 sudo touch /etc/nginx/conf.d/server.conf
 echo  'server {
-  server_name staging.api.hub.32nd.com;
+  server_name staging.api.club.32nd.com;
   location /graphql {
       proxy_set_header  X-Real-IP  $remote_addr;
       proxy_set_header  Host       $http_host;
@@ -56,7 +56,7 @@ echo  'server {
     }
 }
 server {
-  server_name qa.api.hub.32nd.com;
+  server_name qa.api.club.32nd.com;
   location /graphql {
       proxy_set_header  X-Real-IP  $remote_addr;
       proxy_set_header  Host       $http_host;
@@ -75,7 +75,7 @@ server {
     }
 }
 server {
-  server_name dev.api.hub.32nd.com;
+  server_name dev.api.club.32nd.com;
   location /graphql {
       proxy_set_header  X-Real-IP  $remote_addr;
       proxy_set_header  Host       $http_host;
@@ -94,7 +94,7 @@ server {
     }
 }
 server {
-  server_name api.hub.32nd.com;
+  server_name api.club.32nd.com;
   location /graphql {
       proxy_set_header  X-Real-IP  $remote_addr;
       proxy_set_header  Host       $http_host;
@@ -155,7 +155,7 @@ yarn install
 
 # start production PM2
 cd /home/ec2-user/prod/hub-nodejs
-PM2_HOME=/home/ec2-user/.pm2 pm2 start src/index.js -i max --node-args="-r esm" --wait-ready --name "prod-hub-graphql"
+PM2_HOME=/home/ec2-user/.pm2 pm2 start src/index.js -i max --node-args="-r esm" --wait-ready --name "prod-club-graphql"
 pm2 save
 
 ### staging checkout & setup
@@ -171,7 +171,7 @@ yarn install
 
 # start staging PM2
 cd /home/ec2-user/staging/hub-nodejs
-PM2_HOME=/home/ec2-user/.pm2 pm2 start src/index.js -i max --node-args="-r esm" --wait-ready --name "staging-hub-graphql"
+PM2_HOME=/home/ec2-user/.pm2 pm2 start src/index.js -i max --node-args="-r esm" --wait-ready --name "staging-club-graphql"
 pm2 save
 
 
@@ -188,7 +188,7 @@ yarn install
 
 # start qa PM2
 cd /home/ec2-user/qa/hub-nodejs
-PM2_HOME=/home/ec2-user/.pm2 pm2 start src/index.js -i max --node-args="-r esm" --wait-ready --name "qa-hub-graphql"
+PM2_HOME=/home/ec2-user/.pm2 pm2 start src/index.js -i max --node-args="-r esm" --wait-ready --name "qa-club-graphql"
 pm2 save
 
 ### dev checkout & setup
@@ -204,7 +204,7 @@ yarn install
 
 # start dev PM2
 cd /home/ec2-user/dev/hub-nodejs
-PM2_HOME=/home/ec2-user/.pm2 pm2 start src/index.js -i max --node-args="-r esm" --wait-ready --name "dev-hub-graphql"
+PM2_HOME=/home/ec2-user/.pm2 pm2 start src/index.js -i max --node-args="-r esm" --wait-ready --name "dev-club-graphql"
 pm2 save
 
 # sudo chown ec2-user:ec2-user /home/ec2-user/.pm2/rpc.sock /home/ec2-user/.pm2/pub.sock

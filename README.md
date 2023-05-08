@@ -8,14 +8,14 @@ chmod 400 ~/.ssh/hub-key.pem
 ~~~
 ## Login to Bastion Host
 ~~~ 
-ssh -i ~/.ssh/hub-key.pem ec2-user@bastion.hub.32nd.com
+ssh -i ~/.ssh/hub-key.pem ec2-user@bastion.club.32nd.com
 ~~~ 
 
 ## List app server IP Address for SSH Login
 ~~~ 
 aws ec2 describe-instances \
 --query "Reservations[*].Instances[*].{PrivateIP:PrivateIpAddress,Type:InstanceType,Name:Tags[?Key=='Name']|[0].Value,Status:State.Name}"  \
---filters "Name=instance-state-name,Values=running" "Name=tag:Name,Values='hub-app-server'"  \
+--filters "Name=instance-state-name,Values=running" "Name=tag:Name,Values='club-app-server'"  \
 --output table
 ~~~ 
 
@@ -45,7 +45,7 @@ yarn install
 
 ## Reload PM2 (Node Process Manager) to apply changes
 ~~~ 
-pm2 reload <ENV>-hub-graphql
+pm2 reload <ENV>-club-graphql
 ~~~ 
 
-## After this new branch shall be live on <env>.api.hub.32nd.com
+## After this new branch shall be live on <env>.api.club.32nd.com

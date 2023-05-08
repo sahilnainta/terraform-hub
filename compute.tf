@@ -27,6 +27,7 @@ data "aws_ami" "amazon_linux_latest" {
 
 resource "aws_instance" "jump_box" {
   ami                    = data.aws_ami.amazon_linux_latest.id
+  # ami                    = var.bastion_ami
   instance_type          = "t2.micro"
   key_name               = var.key_name
   subnet_id              = aws_subnet.pub_sub[0].id

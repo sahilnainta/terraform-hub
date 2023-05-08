@@ -48,7 +48,7 @@ variable "redis_host_prefix" {
 variable "app_instance_count" {
   description = "Instance Count"
   type        = string
-  default     = 1
+  default     = 1 // Change this to 2 for production
 }
 
 variable "key_name" {
@@ -58,6 +58,12 @@ variable "key_name" {
 }
 
 variable "app_ami" {
+  description = "AMI"
+  type        = string
+  default     = ""
+}
+
+variable "bastion_ami" {
   description = "AMI"
   type        = string
   default     = ""
