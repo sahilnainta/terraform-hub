@@ -7,6 +7,14 @@ resource "aws_s3_bucket" "lb_logs" {
 
 }
 
+# resource "aws_s3_bucket_ownership_controls" "lb_logs" {
+#   bucket = aws_s3_bucket.lb_logs.id
+
+#   rule {
+#     object_ownership = "ObjectWriter"
+#   }
+# }
+
 resource "aws_s3_bucket_policy" "lb_logs" {
   bucket = aws_s3_bucket.lb_logs.id
   policy = "${data.aws_iam_policy_document.s3_bucket_lb_write.json}"

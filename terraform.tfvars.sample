@@ -1,5 +1,5 @@
 project         = "club"
-region          = "ap-south-2"
+region          = "ap-south-1"
 instance_type   = "t3.micro"
 key_name        = "hub-key"
 app_hosted_dns  = "32nd.com"

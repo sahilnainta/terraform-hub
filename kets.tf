@@ -23,12 +23,12 @@ resource "local_file" "my_key_file" {
 
 locals {
   is_windows = substr(pathexpand("~"), 0, 1) == "/" ? false : true
-  key_file   = format("~/.ssh/%s.pem", var.key_name)
+  key_file   = format(".ssh/%s.pem", var.key_name)
 }
 
 locals {
   bash           = "chmod 400 ${local.key_file}"
   bash_ssh       = "eval `ssh-agent` ; ssh-add -k ${local.key_file}"
   powershell     = "icacls ${local.key_file} /inheritancelevel:r /grant:r johndoe:R"
-  powershell_ssh = format("ssh-agent ; ssh-add -k ~/.ssh/%s.pem", var.key_name)
+  powershell_ssh = format("ssh-agent ; ssh-add -k .ssh/%s.pem", var.key_name)
 }

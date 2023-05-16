@@ -38,30 +38,32 @@ resource "aws_instance" "jump_box" {
     Name    = "bastion"
   }
 
+  ## This step is still not working to upload file
+
   provisioner "file" {
-    source        = "${format("~/.ssh/%s.pem", var.key_name)}"
-    destination   = "~/.ssh/app-key.pem"
+    source        = "${format(".ssh/%s.pem", var.key_name)}"
+    destination   = "~/app-key.pem"
     
     connection {
       type        = "ssh"
       user        = "ec2-user"
-      private_key = file("${format("~/.ssh/%s.pem", var.key_name)}")
+      private_key = local_file.my_key_file.content
       host        = self.public_ip
     }
   }
 
-  provisioner "remote-exec" {
-    inline = [
-      "chmod 400 ~/.ssh/app-key.pem",
-    ]
+  # provisioner "remote-exec" {
+  #   inline = [
+  #     "chmod 400 ~/app-key.pem",
+  #   ]
 
-    connection {
-      type        = "ssh"
-      user        = "ec2-user"
-      private_key = file("${format("~/.ssh/%s.pem", var.key_name)}")
-      host        = self.public_ip
-    }
-  }
+  #   connection {
+  #     type        = "ssh"
+  #     user        = "ec2-user"
+  #     private_key = local_file.my_key_file.content
+  #     host        = self.public_ip
+  #   }
+  # }
 }
 
 # resource "aws_instance" "app_instance" {

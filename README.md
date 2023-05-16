@@ -1,14 +1,14 @@
 # Instructions to Build and Deploy a branch
 
 ## One time setup
-Download SSH Key - hub-key.pem (request from sahil@32nd.com)
+Download SSH Key - club-key.pem (request from sahil@32nd.com)
 ~~~ 
-mv ~/Downloads/hub-key.pem ~/.ssh/
-chmod 400 ~/.ssh/hub-key.pem
+mv ~/Downloads/club-key.pem ~/.ssh/
+chmod 400 ~/.ssh/club-key.pem
 ~~~
 ## Login to Bastion Host
 ~~~ 
-ssh -i ~/.ssh/hub-key.pem ec2-user@bastion.club.32nd.com
+ssh -i ~/.ssh/club-key.pem ec2-user@bastion.club.32nd.com
 ~~~ 
 
 ## List app server IP Address for SSH Login
@@ -21,7 +21,7 @@ aws ec2 describe-instances \
 
 ## Login to App Server
 ~~~ 
-ssh -i ~/.ssh/hub-key.pem ec2-user@<IP_ADDRESS>
+ssh -i ~/.ssh/club-key.pem ec2-user@<IP_ADDRESS>
 ~~~ 
 
 ## Go to a envirnoment directory to checkout/pull branch
@@ -49,3 +49,26 @@ pm2 reload <ENV>-club-graphql
 ~~~ 
 
 ## After this new branch shall be live on <env>.api.club.32nd.com
+
+
+# Instructions to setup terraform (Frist time setup only)
+DO NOT REPEAT FOLLOWING STEPS, ONLY MEANT FOR FIRST TIME SETUP
+
+1. Delete .terraform/* & ~/.ssh
+2. terraform init
+3. Connect to a remote backend by setting up a project on terraform cloud with remote execution set to loacl and use the same configuration in provider.tf
+4. Make changes to terraform.tfvars and run following -
+~~~ 
+terraform plan
+terraform apply
+~~~
+5. Copy generated pem file to ~/.ssh path
+
+~~~ 
+mv ~/Downloads/club-key.pem ~/.ssh/
+chmod 400 ~/.ssh/club-key.pem
+~~~
+
+
+
+

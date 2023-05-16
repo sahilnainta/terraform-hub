@@ -82,20 +82,22 @@ resource "aws_route_table_association" "rt_assoc" {
 }
 
 # Create Elastic IP
-resource "aws_eip" "nat_eip" {
-  vpc   = true
-  count = length(data.aws_availability_zones.available.names)
 
-  tags = {
-    Name    = "${format("%s-nat-eip-%03d", var.project, count.index + 1)}"
-    Project = var.project
-  }
-}
+# resource "aws_eip" "nat_eip" {
+#   vpc   = true
+#   count = length(data.aws_availability_zones.available.names)
+
+#   tags = {
+#     Name    = "${format("%s-nat-eip-%03d", var.project, count.index + 1)}"
+#     Project = var.project
+#   }
+# }
 
 # Create NAT Gateway for prv_sub
 resource "aws_nat_gateway" "ngw" {
   count         = length(data.aws_availability_zones.available.names)
-  allocation_id = aws_eip.nat_eip[count.index].id
+  # allocation_id = aws_eip.nat_eip[count.index].id
+  connectivity_type = "private"
   subnet_id     = element(aws_subnet.pub_sub.*.id, count.index)
 
   tags = {
