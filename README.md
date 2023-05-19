@@ -56,14 +56,14 @@ DO NOT REPEAT FOLLOWING STEPS, ONLY MEANT FOR FIRST TIME SETUP
 
 1. Delete .terraform/* & ~/.ssh
 2. terraform init
-3. Connect to a remote backend by setting up a project on terraform cloud with remote execution set to loacl and use the same configuration in provider.tf
-4. Make changes to terraform.tfvars and run following -
-~~~ 
+3. Setup AWS CLI & Add AWS credentials in ~/.aws/credentials
+4. Connect to a remote backend by setting up a project on terraform cloud with remote execution set to loacl and use the same configuration in provider.tf
+5. Make changes to terraform.tfvars and run following -
+~~~
 terraform plan
 terraform apply
 ~~~
-5. Copy generated pem file to ~/.ssh path
-
+6. Copy generated pem file to ~/.ssh path
 ~~~ 
 mv ~/Downloads/club-key.pem ~/.ssh/
 chmod 400 ~/.ssh/club-key.pem
