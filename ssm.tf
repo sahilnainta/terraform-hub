@@ -49,5 +49,5 @@ resource "aws_iam_policy_attachment" "ssm_attach2" {
 resource "aws_ssm_parameter" "cwagent_config" {
   name  = "${format("%s-cwagent-config", var.project)}"
   type  = "String"
-  value = file("cwagent_config.json")
+  value = file("data/cwagent_config.json")
 }

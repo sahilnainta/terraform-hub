@@ -65,18 +65,3 @@ resource "aws_instance" "jump_box" {
   #   }
   # }
 }
-
-# resource "aws_instance" "app_instance" {
-#   ami           = data.aws_ami.amazon_linux_latest.id
-#   instance_type = "t2.micro"
-#   monitoring    = true
-#   key_name      = var.key_name
-#   subnet_id              = aws_subnet.prv_sub[0].id
-#   vpc_security_group_ids = [aws_security_group.general_sg.id, aws_security_group.app_sg.id]
-#   count         = var.app_instance_count
-#   user_data     = "${file("install_httpd.sh")}"
-#   tags = {
-#     Project = var.project
-#     Name = "${format("app-server-%03d", count.index + 1)}"
-#   }
-# }
