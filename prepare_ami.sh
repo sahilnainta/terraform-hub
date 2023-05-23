@@ -154,8 +154,9 @@ cp .env.production .env
 yarn install
 
 # start production PM2
+prod="prod-club-graphql"
 cd /home/ec2-user/prod/hub-nodejs
-PM2_HOME=/home/ec2-user/.pm2 pm2 start src/index.js -i max --node-args="-r esm" --wait-ready --name "prod-club-graphql"
+PM2_HOME=/home/ec2-user/.pm2 pm2 start src/index.js -i max --node-args="-r esm" --wait-ready --name $prod
 pm2 save
 
 ### staging checkout & setup
@@ -170,8 +171,9 @@ cp .env.staging .env
 yarn install
 
 # start staging PM2
+stag="staging-club-graphql"
 cd /home/ec2-user/staging/hub-nodejs
-PM2_HOME=/home/ec2-user/.pm2 pm2 start src/index.js -i max --node-args="-r esm" --wait-ready --name "staging-club-graphql"
+PM2_HOME=/home/ec2-user/.pm2 pm2 start src/index.js -i max --node-args="-r esm" --wait-ready --name $stag
 pm2 save
 
 
@@ -187,8 +189,9 @@ cp .env.qa .env
 yarn install
 
 # start qa PM2
+qa="qa-club-graphql"
 cd /home/ec2-user/qa/hub-nodejs
-PM2_HOME=/home/ec2-user/.pm2 pm2 start src/index.js -i max --node-args="-r esm" --wait-ready --name "qa-club-graphql"
+PM2_HOME=/home/ec2-user/.pm2 pm2 start src/index.js -i max --node-args="-r esm" --wait-ready --name $qa
 pm2 save
 
 ### dev checkout & setup
@@ -203,12 +206,12 @@ cp .env.dev .env
 yarn install
 
 # start dev PM2
+dev="dev-club-graphql"
 cd /home/ec2-user/dev/hub-nodejs
-PM2_HOME=/home/ec2-user/.pm2 pm2 start src/index.js -i max --node-args="-r esm" --wait-ready --name "dev-club-graphql"
+PM2_HOME=/home/ec2-user/.pm2 pm2 start src/index.js -i max --node-args="-r esm" --wait-ready --name $dev
 pm2 save
 
 # sudo chown ec2-user:ec2-user /home/ec2-user/.pm2/rpc.sock /home/ec2-user/.pm2/pub.sock
 sudo chown ec2-user:ec2-user /home/ec2-user/.pm2/rpc.sock /home/ec2-user/.pm2/pub.sock /home/ec2-user/.pm2/reload.lock
 # yarn install from ec2-user & PM2 logging
 sudo chown -R ec2-user /home/ec2-user/prod /home/ec2-user/staging /home/ec2-user/qa /home/ec2-user/dev /home/ec2-user/.pm2
-
