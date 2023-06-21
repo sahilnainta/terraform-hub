@@ -3,10 +3,17 @@ variable "project" {
   type        = string
   default     = "terraform"
 }
+
 variable "region" {
   description = "AWS Region"
   type        = string
   default     = "us-west-1"
+}
+
+variable "key_name" {
+  description = "Key Name"
+  type        = string
+  default     = "terraform-app-key"
 }
 
 variable "instance_type" {
@@ -45,16 +52,16 @@ variable "redis_host_prefix" {
   default     = "redis"
 }
 
-variable "app_instance_count" {
-  description = "Instance Count"
+variable "app_min_instance_count" {
+  description = "Min Instance Count"
   type        = string
-  default     = 1 // Change this to 2 for production
+  default     = 2
 }
 
-variable "key_name" {
-  description = "Key Name"
+variable "app_max_instance_count" {
+  description = "Max Instance Count"
   type        = string
-  default     = "terraform-app-key"
+  default     = 6
 }
 
 variable "app_ami" {

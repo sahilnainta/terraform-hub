@@ -34,8 +34,8 @@ resource "aws_lb_target_group" "app_servers" {
     unhealthy_threshold = 2
     timeout             = 3 // Set 10 Seconds -> wait for this much time for response
     interval            = 30
-    path                = "/index.html" // 1. Add /graphql endpoint
-    port                = 80 // Change port to 443
+    path                = "/graphql?query=%7B__typename%7D"
+    port                = 80 // Keep 80 because LB to app works on 80 port
   }
 
   tags = {
@@ -90,8 +90,9 @@ resource "aws_launch_configuration" "app_lc" {
 # Creating AutoScaling Group
 resource "aws_autoscaling_group" "app_asg" {
   name              = format("%s-app-asg", var.project)
-  min_size          = var.app_instance_count
-  max_size          = 10
+  min_size          = var.app_min_instance_count
+  max_size          = var.app_max_instance_count
+  health_check_grace_period = 600
   health_check_type = "ELB"
   target_group_arns = [aws_lb_target_group.app_servers.arn]
   launch_configuration = aws_launch_configuration.app_lc.id

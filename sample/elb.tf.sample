@@ -53,8 +53,8 @@ resource "aws_launch_configuration" "app_lc" {
 # Creating AutoScaling Group
 resource "aws_autoscaling_group" "app_asg" {
   name              = format("%s-app-asg", var.project)
-  min_size          = var.app_instance_count
-  max_size          = 10
+  min_size          = var.app_min_instance_count
+  max_size          = var.app_max_instance_count
   load_balancers    = [aws_elb.app_elb.name]
   health_check_type = "ELB"
   launch_configuration = aws_launch_configuration.app_lc.id

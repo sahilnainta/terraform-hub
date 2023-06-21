@@ -37,6 +37,25 @@ sudo systemctl start nginx
 # nginx configuration
 sudo touch /etc/nginx/conf.d/server.conf
 echo  'server {
+  server_name api.club.32nd.com;
+  location /graphql {
+      proxy_set_header  X-Real-IP  $remote_addr;
+      proxy_set_header  Host       $http_host;
+      proxy_pass        http://127.0.0.1:5000;
+
+      # Websocket
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection "upgrade";
+    }
+
+  location /rest {
+      proxy_set_header  X-Real-IP  $remote_addr;
+      proxy_set_header  Host       $http_host;
+      proxy_pass        http://127.0.0.1:5000;
+    }
+}
+server {
   server_name staging.api.club.32nd.com;
   location /graphql {
       proxy_set_header  X-Real-IP  $remote_addr;
@@ -91,25 +110,6 @@ server {
       proxy_set_header  X-Real-IP  $remote_addr;
       proxy_set_header  Host       $http_host;
       proxy_pass        http://127.0.0.1:8000;
-    }
-}
-server {
-  server_name api.club.32nd.com;
-  location /graphql {
-      proxy_set_header  X-Real-IP  $remote_addr;
-      proxy_set_header  Host       $http_host;
-      proxy_pass        http://127.0.0.1:5000;
-
-      # Websocket
-      proxy_http_version 1.1;
-      proxy_set_header Upgrade $http_upgrade;
-      proxy_set_header Connection "upgrade";
-    }
-
-  location /rest {
-      proxy_set_header  X-Real-IP  $remote_addr;
-      proxy_set_header  Host       $http_host;
-      proxy_pass        http://127.0.0.1:5000;
     }
 }' | sudo tee /etc/nginx/conf.d/server.conf
 
