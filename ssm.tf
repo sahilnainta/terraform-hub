@@ -34,15 +34,13 @@ resource "aws_iam_instance_profile" "ssm_profile" {
 }
 
 #Attach Policies to Instance Role
-resource "aws_iam_policy_attachment" "ssm_attach1" {
-  name       = "${format("%s-ssm-attachment", var.project)}"
-  roles      = [aws_iam_role.ssm_role.id]
+resource "aws_iam_role_policy_attachment" "ssm_attach1" {
+  role      = aws_iam_role.ssm_role.id
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
 
-resource "aws_iam_policy_attachment" "ssm_attach2" {
-  name       = "${format("%s-ssm-attachment", var.project)}"
-  roles      = [aws_iam_role.ssm_role.id]
+resource "aws_iam_role_policy_attachment" "ssm_attach2" {
+  role      = aws_iam_role.ssm_role.id
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
 }
 
