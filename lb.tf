@@ -12,7 +12,7 @@ resource "aws_lb" "app_lb" {
   
 
   access_logs {
-    bucket  = aws_s3_bucket.lb_logs.bucket
+    bucket  = module.s3_bucket_for_logs.s3_bucket_id
     prefix  = format("%s-app-log-", var.project)
     enabled = true
   }
@@ -149,7 +149,7 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu" {
   namespace           = "AWS/EC2"
   period              = "60"
   statistic           = "Average"
-  threshold           = "80"
+  threshold           = "70"
   alarm_description   = format("This metric monitors %s-app high cpu utilization", var.project)
   dimensions = {
     AutoScalingGroupName = aws_autoscaling_group.app_asg.name
