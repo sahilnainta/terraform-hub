@@ -42,7 +42,7 @@ resource "aws_instance" "jump_box" {
 
   provisioner "file" {
     source        = "${format(".ssh/%s.pem", var.key_name)}"
-    destination   = "~/app-key.pem"
+    destination   = "/home/ec2-user/.ssh/app-key.pem"
     
     connection {
       type        = "ssh"
@@ -52,16 +52,16 @@ resource "aws_instance" "jump_box" {
     }
   }
 
-  # provisioner "remote-exec" {
-  #   inline = [
-  #     "chmod 400 ~/app-key.pem",
-  #   ]
+  provisioner "remote-exec" {
+    inline = [
+      "chmod 400 /home/ec2-user/.ssh/app-key.pem",
+    ]
 
-  #   connection {
-  #     type        = "ssh"
-  #     user        = "ec2-user"
-  #     private_key = local_file.my_key_file.content
-  #     host        = self.public_ip
-  #   }
-  # }
+    connection {
+      type        = "ssh"
+      user        = "ec2-user"
+      private_key = local_file.my_key_file.content
+      host        = self.public_ip
+    }
+  }
 }
