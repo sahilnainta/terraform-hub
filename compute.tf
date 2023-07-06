@@ -25,6 +25,9 @@ data "aws_ami" "amazon_linux_latest" {
   }
 }
 
+# Url to find list of AMIs using below filters
+# https://ap-south-1.console.aws.amazon.com/ec2/home?region=ap-south-1#Images:visibility=public-images;ownerAlias=amazon;rootDeviceType=ebs;virtualization=hvm;imageName=amzn2-ami-hvm-*;architecture=x86_64;v=3;$case=tags:false%5C,client:false;$regex=tags:false%5C,client:false
+
 resource "aws_instance" "jump_box" {
   ami                    = data.aws_ami.amazon_linux_latest.id
   # ami                    = var.bastion_ami
@@ -36,6 +39,10 @@ resource "aws_instance" "jump_box" {
   tags = {
     Project = var.project
     Name    = "bastion"
+  }
+
+  lifecycle {
+    create_before_destroy = true
   }
 
   ## This step is still not working to upload file
