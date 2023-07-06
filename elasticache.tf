@@ -27,6 +27,13 @@ resource "aws_elasticache_cluster" "redis" {
     Name    = "${format("%s-redis", var.project)}"
     Project = var.project
   }
+
+  # To prevent deletion. Once deleted, all users will be logged out.
+
+  lifecycle {
+    prevent_destroy = true 
+  }
+
 }
 
 # resource "aws_elasticache_replication_group" "redis_replication_group" {
