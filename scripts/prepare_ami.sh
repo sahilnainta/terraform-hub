@@ -127,8 +127,6 @@ sudo make distclean
 sudo make
 sudo yum install -y tcl
 
-# sudo make test
-
 sudo cp src/redis-server /usr/local/bin/
 sudo cp src/redis-cli /usr/local/bin/
 
@@ -152,11 +150,12 @@ cd hub-nodejs
 cp .env.production .env
 
 yarn install
+yarn build
 
 # start production PM2
 prod="prod-club-graphql"
 cd /home/ec2-user/prod/hub-nodejs
-PM2_HOME=/home/ec2-user/.pm2 pm2 start src/index.js -i max --node-args="-r esm" --wait-ready --name $prod
+PM2_HOME=/home/ec2-user/.pm2 pm2 start build/index.js -i max --wait-ready --name $prod
 pm2 save
 
 ### staging checkout & setup
@@ -169,11 +168,12 @@ cd hub-nodejs
 cp .env.staging .env
 
 yarn install
+yarn build
 
 # start staging PM2
 stag="staging-club-graphql"
 cd /home/ec2-user/staging/hub-nodejs
-PM2_HOME=/home/ec2-user/.pm2 pm2 start src/index.js -i max --node-args="-r esm" --wait-ready --name $stag
+PM2_HOME=/home/ec2-user/.pm2 pm2 start build/index.js -i max --wait-ready --name $stag
 pm2 save
 
 
@@ -187,11 +187,12 @@ cd hub-nodejs
 cp .env.qa .env
 
 yarn install
+yarn build
 
 # start qa PM2
 qa="qa-club-graphql"
 cd /home/ec2-user/qa/hub-nodejs
-PM2_HOME=/home/ec2-user/.pm2 pm2 start src/index.js -i max --node-args="-r esm" --wait-ready --name $qa
+PM2_HOME=/home/ec2-user/.pm2 pm2 start build/index.js -i max --wait-ready --name $qa
 pm2 save
 
 ### dev checkout & setup
@@ -204,11 +205,12 @@ cd hub-nodejs
 cp .env.dev .env
 
 yarn install
+yarn build
 
 # start dev PM2
 dev="dev-club-graphql"
 cd /home/ec2-user/dev/hub-nodejs
-PM2_HOME=/home/ec2-user/.pm2 pm2 start src/index.js -i max --node-args="-r esm" --wait-ready --name $dev
+PM2_HOME=/home/ec2-user/.pm2 pm2 start build/index.js -i max --wait-ready --name $dev
 pm2 save
 
 # sudo chown ec2-user:ec2-user /home/ec2-user/.pm2/rpc.sock /home/ec2-user/.pm2/pub.sock
