@@ -29,8 +29,7 @@ data "aws_ami" "amazon_linux_latest" {
 # https://ap-south-1.console.aws.amazon.com/ec2/home?region=ap-south-1#Images:visibility=public-images;ownerAlias=amazon;rootDeviceType=ebs;virtualization=hvm;imageName=amzn2-ami-hvm-*;architecture=x86_64;v=3;$case=tags:false%5C,client:false;$regex=tags:false%5C,client:false
 
 resource "aws_instance" "jump_box" {
-  ami                    = data.aws_ami.amazon_linux_latest.id
-  # ami                    = var.bastion_ami
+  ami                    = var.bastion_ami != "" ? var.bastion_ami : data.aws_ami.amazon_linux_latest.id
   instance_type          = "t2.micro"
   key_name               = var.key_name
   subnet_id              = aws_subnet.pub_sub[0].id

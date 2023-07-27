@@ -8,7 +8,7 @@ sudo systemctl start nginx
 
 source /home/ec2-user/.bashrc
 
-redis-server --daemonize yes
+# redis-server --daemonize yes
 
 ### prod checkout & setup
 cd /home/ec2-user
@@ -16,20 +16,21 @@ sudo rm -rf prod && mkdir prod
 cd /home/ec2-user/prod
 
 # fetch latest tag
-latestTag=$(sudo git ls-remote --tags --refs --sort="v:refname" https://32nd-hub-admin:ATBB3x8GXLXgqaNv9TV7MWS66GTSBD45A5F0@bitbucket.org/sahil32nd/hub-nodejs.git | tail -n1 | sed 's/.*\///')
+latestTag=$(git ls-remote --tags --refs --sort="v:refname" https://32nd-hub-admin:ATBB3x8GXLXgqaNv9TV7MWS66GTSBD45A5F0@bitbucket.org/sahil32nd/hub-nodejs.git | tail -n1 | sed 's/.*\///')
 
 # clone latest tag
-sudo git clone --depth 1 -b $latestTag https://32nd-hub-admin:ATBB3x8GXLXgqaNv9TV7MWS66GTSBD45A5F0@bitbucket.org/sahil32nd/hub-nodejs.git
+git clone --depth 1 -b $latestTag https://32nd-hub-admin:ATBB3x8GXLXgqaNv9TV7MWS66GTSBD45A5F0@bitbucket.org/sahil32nd/hub-nodejs.git
 
 cd hub-nodejs
 cp .env.production .env
 
 yarn install
+yarn build
 
 # start production PM2
 prod="prod-club-graphql"
 cd /home/ec2-user/prod/hub-nodejs
-PM2_HOME=/home/ec2-user/.pm2 pm2 start src/index.js -i max --node-args="-r esm" --wait-ready --name $prod
+PM2_HOME=/home/ec2-user/.pm2 pm2 start build/index.js -i max --wait-ready --name $prod
 pm2 save
 
 
@@ -42,11 +43,12 @@ cd hub-nodejs
 cp .env.staging .env
 
 yarn install
+yarn build
 
 # start staging PM2
 stag="staging-club-graphql"
 cd /home/ec2-user/staging/hub-nodejs
-PM2_HOME=/home/ec2-user/.pm2 pm2 start src/index.js -i max --node-args="-r esm" --wait-ready --name $stag
+PM2_HOME=/home/ec2-user/.pm2 pm2 start build/index.js -i max --wait-ready --name $stag
 pm2 save
 
 
@@ -59,11 +61,12 @@ cd hub-nodejs
 cp .env.qa .env
 
 yarn install
+yarn build
 
 # start qa PM2
 qa="qa-club-graphql"
 cd /home/ec2-user/qa/hub-nodejs
-PM2_HOME=/home/ec2-user/.pm2 pm2 start src/index.js -i max --node-args="-r esm" --wait-ready --name $qa
+PM2_HOME=/home/ec2-user/.pm2 pm2 start build/index.js -i max --wait-ready --name $qa
 pm2 save
 
 
@@ -76,11 +79,12 @@ cd hub-nodejs
 cp .env.dev .env
 
 yarn install
+yarn build
 
 # start dev PM2
 dev="dev-club-graphql"
 cd /home/ec2-user/dev/hub-nodejs
-PM2_HOME=/home/ec2-user/.pm2 pm2 start src/index.js -i max --node-args="-r esm" --wait-ready --name $dev
+PM2_HOME=/home/ec2-user/.pm2 pm2 start build/index.js -i max --wait-ready --name $dev
 pm2 save
 
 # sudo chown ec2-user:ec2-user /home/ec2-user/.pm2/rpc.sock /home/ec2-user/.pm2/pub.sock

@@ -57,7 +57,7 @@ DO NOT REPEAT FOLLOWING STEPS, ONLY MEANT FOR FIRST TIME SETUP
 1. Delete .terraform/* & ~/.ssh
 2. terraform init
 3. Setup AWS CLI & Add AWS credentials in ~/.aws/credentials
-4. Connect to a remote backend by setting up a project on terraform cloud with remote execution set to loacl and use the same configuration in provider.tf
+4. Connect to a remote backend by setting up a project on terraform cloud with remote execution set to loacal and use the same configuration in provider.tf
 5. Make changes to terraform.tfvars and run following -
 ~~~
 terraform plan
@@ -68,6 +68,18 @@ terraform apply
 mv ~/Downloads/club-key.pem ~/.ssh/
 chmod 400 ~/.ssh/club-key.pem
 ~~~
+
+# Instructions to build app-server image with Packer
+
+# Install Packer 
+brew tap hashicorp/tap
+brew install hashicorp/tap/packer
+
+1. cd <PROJECT_DIR>/packer
+2. packer init
+3. packer build .
+   
+AMI ID will be returned if all steps ran sucessfully.
 
 
 
