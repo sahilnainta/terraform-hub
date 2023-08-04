@@ -94,7 +94,7 @@ resource "aws_autoscaling_group" "app_asg" {
   name              = format("%s-app-asg", var.project)
   min_size          = var.app_min_instance_count
   max_size          = var.app_max_instance_count
-  health_check_grace_period = 600
+  health_check_grace_period = 300
   health_check_type = "ELB"
   target_group_arns = [aws_lb_target_group.app_servers.arn]
   launch_configuration = aws_launch_configuration.app_lc.id
@@ -131,14 +131,14 @@ resource "aws_autoscaling_policy" "app_scale_up" {
   name                   = format("%s-app-scale-up", var.project)
   scaling_adjustment     = 1
   adjustment_type        = "ChangeInCapacity"
-  cooldown               = 300
+  cooldown               = 180
   autoscaling_group_name = aws_autoscaling_group.app_asg.name
 }
 resource "aws_autoscaling_policy" "app_scale_down" {
   name                   = format("%s-app-scale-down", var.project)
   scaling_adjustment     = -1
   adjustment_type        = "ChangeInCapacity"
-  cooldown               = 300
+  cooldown               = 180
   autoscaling_group_name = aws_autoscaling_group.app_asg.name
 }
 
