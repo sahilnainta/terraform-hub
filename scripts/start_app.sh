@@ -34,20 +34,22 @@ PM2_HOME=/home/ec2-user/.pm2 pm2 start build/index.js -i max --wait-ready --name
 pm2 save
 
 
-### staging checkout & setup
+### developer envirnoment checkout
 cd /home/ec2-user
-sudo rm -rf staging && mkdir staging
-cd /home/ec2-user/staging
+sudo rm -rf club-app && mkdir club-app
+cd /home/ec2-user/club-app
 git clone -b master https://32nd-hub-admin:ATBB3x8GXLXgqaNv9TV7MWS66GTSBD45A5F0@bitbucket.org/sahil32nd/hub-nodejs.git
 cd hub-nodejs
-cp .env.staging .env
-
 yarn install
 yarn build
 
 # start staging PM2
-stag="staging-club-graphql"
+cd /home/ec2-user
+sudo rm -rf staging && cp -R club-app staging
 cd /home/ec2-user/staging/hub-nodejs
+cp .env.staging .env
+
+stag="staging-club-graphql"
 PM2_HOME=/home/ec2-user/.pm2 pm2 start build/index.js -i max --wait-ready --name $stag
 pm2 save
 
@@ -61,20 +63,13 @@ stag="staging1-club-graphql"
 PM2_HOME=/home/ec2-user/.pm2 pm2 start build/index.js -i max --wait-ready --name $stag
 pm2 save
 
-### qa checkout & setup
+# start qa PM2
 cd /home/ec2-user
-sudo rm -rf qa && mkdir qa
-cd /home/ec2-user/qa
-git clone -b master https://32nd-hub-admin:ATBB3x8GXLXgqaNv9TV7MWS66GTSBD45A5F0@bitbucket.org/sahil32nd/hub-nodejs.git
-cd hub-nodejs
+sudo rm -rf qa && cp -R club-app qa
+cd /home/ec2-user/qa/hub-nodejs
 cp .env.qa .env
 
-yarn install
-yarn build
-
-# start qa PM2
 qa="qa-club-graphql"
-cd /home/ec2-user/qa/hub-nodejs
 PM2_HOME=/home/ec2-user/.pm2 pm2 start build/index.js -i max --wait-ready --name $qa
 pm2 save
 
@@ -88,20 +83,13 @@ stag="qa1-club-graphql"
 PM2_HOME=/home/ec2-user/.pm2 pm2 start build/index.js -i max --wait-ready --name $stag
 pm2 save
 
-### dev checkout & setup
+# start dev PM2
 cd /home/ec2-user
-sudo rm -rf dev && mkdir dev
-cd /home/ec2-user/dev
-git clone -b master https://32nd-hub-admin:ATBB3x8GXLXgqaNv9TV7MWS66GTSBD45A5F0@bitbucket.org/sahil32nd/hub-nodejs.git
-cd hub-nodejs
+sudo rm -rf dev && cp -R club-app dev
+cd /home/ec2-user/dev/hub-nodejs
 cp .env.dev .env
 
-yarn install
-yarn build
-
-# start dev PM2
 dev="dev-club-graphql"
-cd /home/ec2-user/dev/hub-nodejs
 PM2_HOME=/home/ec2-user/.pm2 pm2 start build/index.js -i max --wait-ready --name $dev
 pm2 save
 
@@ -114,6 +102,9 @@ echo "APP_PORT=8001" >> .env
 stag="dev1-club-graphql"
 PM2_HOME=/home/ec2-user/.pm2 pm2 start build/index.js -i max --wait-ready --name $stag
 pm2 save
+
+## Removing developer envirnoment directory 
+sudo rm -rf club-app
 
 # sudo chown ec2-user:ec2-user /home/ec2-user/.pm2/rpc.sock /home/ec2-user/.pm2/pub.sock
 sudo chown ec2-user:ec2-user /home/ec2-user/.pm2/rpc.sock /home/ec2-user/.pm2/pub.sock /home/ec2-user/.pm2/reload.lock
