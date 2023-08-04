@@ -51,6 +51,15 @@ cd /home/ec2-user/staging/hub-nodejs
 PM2_HOME=/home/ec2-user/.pm2 pm2 start build/index.js -i max --wait-ready --name $stag
 pm2 save
 
+# start staging1 PM2
+cd /home/ec2-user
+sudo rm -rf staging1 && cp -R staging staging1
+cd /home/ec2-user/staging1/hub-nodejs
+echo "APP_PORT=6001" >> .env
+
+stag="staging1-club-graphql"
+PM2_HOME=/home/ec2-user/.pm2 pm2 start build/index.js -i max --wait-ready --name $stag
+pm2 save
 
 ### qa checkout & setup
 cd /home/ec2-user
@@ -69,6 +78,15 @@ cd /home/ec2-user/qa/hub-nodejs
 PM2_HOME=/home/ec2-user/.pm2 pm2 start build/index.js -i max --wait-ready --name $qa
 pm2 save
 
+# start qa1 PM2
+cd /home/ec2-user
+sudo rm -rf qa1 && cp -R qa qa1
+cd /home/ec2-user/qa1/hub-nodejs
+echo "APP_PORT=7001" >> .env
+
+stag="qa1-club-graphql"
+PM2_HOME=/home/ec2-user/.pm2 pm2 start build/index.js -i max --wait-ready --name $stag
+pm2 save
 
 ### dev checkout & setup
 cd /home/ec2-user
@@ -87,9 +105,20 @@ cd /home/ec2-user/dev/hub-nodejs
 PM2_HOME=/home/ec2-user/.pm2 pm2 start build/index.js -i max --wait-ready --name $dev
 pm2 save
 
+# start dev1 PM2
+cd /home/ec2-user
+sudo rm -rf dev1 && cp -R dev dev1
+cd /home/ec2-user/dev1/hub-nodejs
+echo "APP_PORT=8001" >> .env
+
+stag="dev1-club-graphql"
+PM2_HOME=/home/ec2-user/.pm2 pm2 start build/index.js -i max --wait-ready --name $stag
+pm2 save
+
 # sudo chown ec2-user:ec2-user /home/ec2-user/.pm2/rpc.sock /home/ec2-user/.pm2/pub.sock
 sudo chown ec2-user:ec2-user /home/ec2-user/.pm2/rpc.sock /home/ec2-user/.pm2/pub.sock /home/ec2-user/.pm2/reload.lock
 # yarn install from ec2-user & PM2 logging
 sudo chown -R ec2-user /home/ec2-user/prod /home/ec2-user/staging /home/ec2-user/qa /home/ec2-user/dev /home/ec2-user/.pm2
 
+sudo chown -R ec2-user /home/ec2-user/staging1 /home/ec2-user/qa1 /home/ec2-user/dev1
 # TODO: Hardcoded name 'club-xxxx' needs to be picked from terraform.tfvars

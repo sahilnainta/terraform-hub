@@ -37,6 +37,19 @@ output "qa_app_dns_name" {
 output "dev_app_dns_name" {
   value = aws_route53_record.dev_api.name
 }
+
+output "staging1_app_dns_name" {
+  value = aws_route53_record.staging1_api.name
+}
+
+output "qa1_app_dns_name" {
+  value = aws_route53_record.qa1_api.name
+}
+
+output "dev1_app_dns_name" {
+  value = aws_route53_record.dev1_api.name
+}
+
 output "redis_node_address" {
   value       = aws_elasticache_cluster.redis.cache_nodes[*].address
   description = "The address of the endpoint for the primary node in redis cluster, if the cluster mode is disabled."

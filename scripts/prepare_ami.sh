@@ -75,6 +75,25 @@ server {
     }
 }
 server {
+  server_name staging-1.api.club.32nd.com;
+  location /graphql {
+      proxy_set_header  X-Real-IP  $remote_addr;
+      proxy_set_header  Host       $http_host;
+      proxy_pass        http://127.0.0.1:6001;
+
+      # Websocket
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection "upgrade";
+    }
+
+  location /rest {
+      proxy_set_header  X-Real-IP  $remote_addr;
+      proxy_set_header  Host       $http_host;
+      proxy_pass        http://127.0.0.1:6001;
+    }
+}
+server {
   server_name qa.api.club.32nd.com;
   location /graphql {
       proxy_set_header  X-Real-IP  $remote_addr;
@@ -94,6 +113,25 @@ server {
     }
 }
 server {
+  server_name qa-1.api.club.32nd.com;
+  location /graphql {
+      proxy_set_header  X-Real-IP  $remote_addr;
+      proxy_set_header  Host       $http_host;
+      proxy_pass        http://127.0.0.1:7001;
+      
+      # Websocket
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection "upgrade";
+    }
+
+  location /rest {
+      proxy_set_header  X-Real-IP  $remote_addr;
+      proxy_set_header  Host       $http_host;
+      proxy_pass        http://127.0.0.1:7001;
+    }
+}
+server {
   server_name dev.api.club.32nd.com;
   location /graphql {
       proxy_set_header  X-Real-IP  $remote_addr;
@@ -110,6 +148,25 @@ server {
       proxy_set_header  X-Real-IP  $remote_addr;
       proxy_set_header  Host       $http_host;
       proxy_pass        http://127.0.0.1:8000;
+    }
+}
+server {
+  server_name dev-1.api.club.32nd.com;
+  location /graphql {
+      proxy_set_header  X-Real-IP  $remote_addr;
+      proxy_set_header  Host       $http_host;
+      proxy_pass        http://127.0.0.1:8001;
+
+      # Websocket
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection "upgrade";
+    }
+
+  location /rest {
+      proxy_set_header  X-Real-IP  $remote_addr;
+      proxy_set_header  Host       $http_host;
+      proxy_pass        http://127.0.0.1:8001;
     }
 }' | sudo tee /etc/nginx/conf.d/server.conf
 
