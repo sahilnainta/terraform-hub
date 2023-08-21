@@ -64,6 +64,18 @@ variable "app_max_instance_count" {
   default     = 6
 }
 
+variable "dev_min_instance_count" {
+  description = "Min Instance Count"
+  type        = string
+  default     = 1
+}
+
+variable "dev_max_instance_count" {
+  description = "Max Instance Count"
+  type        = string
+  default     = 1
+}
+
 variable "app_ami" {
   description = "AMI"
   type        = string

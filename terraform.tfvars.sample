@@ -9,5 +9,7 @@ bastion_host_prefix  = "bastion.club"
 redis_host_prefix = "redis.club"
 app_min_instance_count = 2
 app_max_instance_count = 4
+dev_min_instance_count = 1
+dev_max_instance_count = 1
 app_ami         = "ami-08fab01d47695d3ea" // Packer AMI
 # bastion_ami     = "ami-0770726357cfe8240"

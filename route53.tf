@@ -67,8 +67,8 @@ resource "aws_route53_record" "qa_api" {
   alias {
     # name                   = aws_elb.app_elb.dns_name
     # zone_id                = aws_elb.app_elb.zone_id
-    name                   = aws_lb.app_lb.dns_name
-    zone_id                = aws_lb.app_lb.zone_id
+    name                   = aws_lb.dev_lb.dns_name
+    zone_id                = aws_lb.dev_lb.zone_id
     evaluate_target_health = true
   }
 }
@@ -82,8 +82,8 @@ resource "aws_route53_record" "dev_api" {
   alias {
     # name                   = aws_elb.app_elb.dns_name
     # zone_id                = aws_elb.app_elb.zone_id
-    name                   = aws_lb.app_lb.dns_name
-    zone_id                = aws_lb.app_lb.zone_id
+    name                   = aws_lb.dev_lb.dns_name
+    zone_id                = aws_lb.dev_lb.zone_id
     evaluate_target_health = true
   }
 }
@@ -97,8 +97,8 @@ resource "aws_route53_record" "staging1_api" {
   alias {
     # name                   = aws_elb.app_elb.dns_name
     # zone_id                = aws_elb.app_elb.zone_id
-    name                   = aws_lb.app_lb.dns_name
-    zone_id                = aws_lb.app_lb.zone_id
+    name                   = aws_lb.dev_lb.dns_name
+    zone_id                = aws_lb.dev_lb.zone_id
     evaluate_target_health = true
   }
 }
@@ -112,8 +112,8 @@ resource "aws_route53_record" "qa1_api" {
   alias {
     # name                   = aws_elb.app_elb.dns_name
     # zone_id                = aws_elb.app_elb.zone_id
-    name                   = aws_lb.app_lb.dns_name
-    zone_id                = aws_lb.app_lb.zone_id
+    name                   = aws_lb.dev_lb.dns_name
+    zone_id                = aws_lb.dev_lb.zone_id
     evaluate_target_health = true
   }
 }
@@ -127,8 +127,8 @@ resource "aws_route53_record" "dev1_api" {
   alias {
     # name                   = aws_elb.app_elb.dns_name
     # zone_id                = aws_elb.app_elb.zone_id
-    name                   = aws_lb.app_lb.dns_name
-    zone_id                = aws_lb.app_lb.zone_id
+    name                   = aws_lb.dev_lb.dns_name
+    zone_id                = aws_lb.dev_lb.zone_id
     evaluate_target_health = true
   }
 }
