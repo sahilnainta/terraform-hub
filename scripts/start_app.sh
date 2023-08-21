@@ -104,6 +104,7 @@ PM2_HOME=/home/ec2-user/.pm2 pm2 start build/index.js -i max --wait-ready --name
 pm2 save
 
 ## Removing developer envirnoment directory 
+cd /home/ec2-user
 sudo rm -rf club-app
 
 # sudo chown ec2-user:ec2-user /home/ec2-user/.pm2/rpc.sock /home/ec2-user/.pm2/pub.sock

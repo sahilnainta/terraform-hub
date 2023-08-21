@@ -78,7 +78,11 @@ resource "aws_launch_configuration" "app_lc" {
   name_prefix     = format("%s-app-lc-", var.project)
   # image_id        = var.app_ami != "" ? var.app_ami : var.bastion_ami
   image_id          = var.app_ami
-  instance_type   = var.instance_type   
+  instance_type   = var.instance_type
+  root_block_device {
+    volume_type = "gp2"
+    volume_size = 16
+  }
   security_groups = [aws_security_group.general_sg.id, aws_security_group.app_sg.id]
   key_name        = var.key_name
   iam_instance_profile = "${aws_iam_instance_profile.ssm_profile.id}"
