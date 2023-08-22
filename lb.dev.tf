@@ -87,7 +87,7 @@ resource "aws_launch_configuration" "dev_lc" {
   key_name        = var.key_name
   iam_instance_profile = "${aws_iam_instance_profile.ssm_profile.id}"
   # user_data       = var.app_ami != "" ? file("scripts/start_app.sh") : file("scripts/prepare_ami.sh") 
-  user_data       = file("scripts/start_app.sh")
+  user_data       = file("scripts/start_app.dev.sh")
   lifecycle {
     create_before_destroy = true
   }
