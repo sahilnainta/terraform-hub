@@ -10,7 +10,7 @@ source /home/ec2-user/.bashrc
 
 # redis-server --daemonize yes
 
-### prod checkout & setup
+### prod/staging checkout & setup
 cd /home/ec2-user
 sudo rm -rf prod && mkdir prod
 cd /home/ec2-user/prod
@@ -22,7 +22,8 @@ latestTag=$(git ls-remote --tags --refs --sort="v:refname" https://32nd-hub-admi
 git clone --depth 1 -b $latestTag https://32nd-hub-admin:ATBB3x8GXLXgqaNv9TV7MWS66GTSBD45A5F0@bitbucket.org/sahil32nd/hub-nodejs.git
 
 cd hub-nodejs
-cp .env.production .env
+cp .env.staging .env
+echo "APP_PORT=5000" >> .env
 
 yarn install
 yarn build
@@ -43,20 +44,12 @@ cd hub-nodejs
 yarn install
 yarn build
 
-# start staging PM2
-cd /home/ec2-user
-sudo rm -rf staging && cp -R club-app staging
-cd /home/ec2-user/staging/hub-nodejs
-cp .env.staging .env
-
-stag="staging-club-graphql"
-PM2_HOME=/home/ec2-user/.pm2 pm2 start build/index.js -i max --wait-ready --name $stag
-pm2 save
 
 # start staging1 PM2
 cd /home/ec2-user
-sudo rm -rf staging1 && cp -R staging staging1
+sudo rm -rf staging1 && cp -R club-app staging1
 cd /home/ec2-user/staging1/hub-nodejs
+cp .env.staging .env
 echo "APP_PORT=6001" >> .env
 
 stag="staging1-club-graphql"
@@ -110,7 +103,7 @@ sudo rm -rf club-app
 # sudo chown ec2-user:ec2-user /home/ec2-user/.pm2/rpc.sock /home/ec2-user/.pm2/pub.sock
 sudo chown ec2-user:ec2-user /home/ec2-user/.pm2/rpc.sock /home/ec2-user/.pm2/pub.sock /home/ec2-user/.pm2/reload.lock
 # yarn install from ec2-user & PM2 logging
-sudo chown -R ec2-user /home/ec2-user/prod /home/ec2-user/staging /home/ec2-user/qa /home/ec2-user/dev /home/ec2-user/.pm2
+sudo chown -R ec2-user /home/ec2-user/prod /home/ec2-user/qa /home/ec2-user/dev /home/ec2-user/.pm2
 
 sudo chown -R ec2-user /home/ec2-user/staging1 /home/ec2-user/qa1 /home/ec2-user/dev1
 # TODO: Hardcoded name 'club-xxxx' needs to be picked from terraform.tfvars
