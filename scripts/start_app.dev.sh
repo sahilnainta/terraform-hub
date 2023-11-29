@@ -10,7 +10,7 @@ source /home/ec2-user/.bashrc
 
 # redis-server --daemonize yes
 
-### prod/staging checkout & setup
+### prod/staging checkout & setup for ELB heartbeat check (Not exposed from outside F.E.)
 cd /home/ec2-user
 sudo rm -rf prod && mkdir prod
 cd /home/ec2-user/prod
@@ -23,7 +23,9 @@ git clone --depth 1 -b $latestTag https://32nd-hub-admin:ATBB3x8GXLXgqaNv9TV7MWS
 
 cd hub-nodejs
 cp .env.staging .env
+echo "" >> .env
 echo "APP_PORT=5000" >> .env
+echo "APP_ENV=staging0" >> .env
 
 yarn install
 yarn build
@@ -50,7 +52,9 @@ cd /home/ec2-user
 sudo rm -rf staging1 && cp -R club-app staging1
 cd /home/ec2-user/staging1/hub-nodejs
 cp .env.staging .env
+echo "" >> .env
 echo "APP_PORT=6001" >> .env
+echo "APP_ENV=staging1" >> .env
 
 stag="staging1-club-graphql"
 PM2_HOME=/home/ec2-user/.pm2 pm2 start build/index.js -i max --wait-ready --name $stag
@@ -70,7 +74,9 @@ pm2 save
 cd /home/ec2-user
 sudo rm -rf qa1 && cp -R qa qa1
 cd /home/ec2-user/qa1/hub-nodejs
+echo "" >> .env
 echo "APP_PORT=7001" >> .env
+echo "APP_ENV=qa1" >> .env
 
 stag="qa1-club-graphql"
 PM2_HOME=/home/ec2-user/.pm2 pm2 start build/index.js -i max --wait-ready --name $stag
@@ -90,7 +96,9 @@ pm2 save
 cd /home/ec2-user
 sudo rm -rf dev1 && cp -R dev dev1
 cd /home/ec2-user/dev1/hub-nodejs
+echo "" >> .env
 echo "APP_PORT=8001" >> .env
+echo "APP_ENV=dev1" >> .env
 
 stag="dev1-club-graphql"
 PM2_HOME=/home/ec2-user/.pm2 pm2 start build/index.js -i max --wait-ready --name $stag
