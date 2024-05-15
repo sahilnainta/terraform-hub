@@ -133,6 +133,21 @@ resource "aws_route53_record" "dev1_api" {
   }
 }
 
+resource "aws_route53_record" "analytics_api" {
+  allow_overwrite = true
+  zone_id = data.aws_route53_zone.hosted_zone.zone_id
+  name    = format("analytics.%s.%s", var.app_dns_prefix, var.app_hosted_dns)
+  type    = "A"
+
+  alias {
+    # name                   = aws_elb.app_elb.dns_name
+    # zone_id                = aws_elb.app_elb.zone_id
+    name                   = aws_lb.dev_lb.dns_name
+    zone_id                = aws_lb.dev_lb.zone_id
+    evaluate_target_health = true
+  }
+}
+
 resource "aws_acm_certificate" "cert" {
   domain_name       = format("%s.%s", var.app_dns_prefix, var.app_hosted_dns)
   subject_alternative_names = [format("*.%s.%s", var.app_dns_prefix, var.app_hosted_dns)]

@@ -168,6 +168,25 @@ server {
       proxy_set_header  Host       $http_host;
       proxy_pass        http://127.0.0.1:8001;
     }
+}
+server {
+  server_name analytics.api.club.32nd.com;
+  location /graphql {
+      proxy_set_header  X-Real-IP  $remote_addr;
+      proxy_set_header  Host       $http_host;
+      proxy_pass        http://127.0.0.1:9001;
+
+      # Websocket
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection "upgrade";
+    }
+
+  location /rest {
+      proxy_set_header  X-Real-IP  $remote_addr;
+      proxy_set_header  Host       $http_host;
+      proxy_pass        http://127.0.0.1:9001;
+    }
 }' | sudo tee /etc/nginx/conf.d/server.conf
 
 sudo systemctl restart nginx

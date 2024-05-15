@@ -50,6 +50,10 @@ output "dev1_app_dns_name" {
   value = aws_route53_record.dev1_api.name
 }
 
+output "analytics_app_dns_name" {
+  value = aws_route53_record.analytics_api.name
+}
+
 output "redis_node_address" {
   value       = aws_elasticache_cluster.redis.cache_nodes[*].address
   description = "The address of the endpoint for the primary node in redis cluster, if the cluster mode is disabled."

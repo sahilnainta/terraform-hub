@@ -104,6 +104,18 @@ stag="dev1-club-graphql"
 PM2_HOME=/home/ec2-user/.pm2 pm2 start build/index.js -i max --wait-ready --name $stag
 pm2 save
 
+# start analytics PM2
+cd /home/ec2-user
+sudo rm -rf analytics && cp -R dev analytics
+cd /home/ec2-user/analytics/hub-nodejs
+echo "" >> .env
+echo "APP_PORT=9001" >> .env
+echo "APP_ENV=analytics" >> .env
+
+stag="analytics-club-graphql"
+PM2_HOME=/home/ec2-user/.pm2 pm2 start build/index.js -i max --wait-ready --name $stag
+pm2 save
+
 ## Removing developer envirnoment directory 
 cd /home/ec2-user
 sudo rm -rf club-app
@@ -113,5 +125,5 @@ sudo chown ec2-user:ec2-user /home/ec2-user/.pm2/rpc.sock /home/ec2-user/.pm2/pu
 # yarn install from ec2-user & PM2 logging
 sudo chown -R ec2-user /home/ec2-user/prod /home/ec2-user/qa /home/ec2-user/dev /home/ec2-user/.pm2
 
-sudo chown -R ec2-user /home/ec2-user/staging1 /home/ec2-user/qa1 /home/ec2-user/dev1
+sudo chown -R ec2-user /home/ec2-user/staging1 /home/ec2-user/qa1 /home/ec2-user/dev1 /home/ec2-user/analytics
 # TODO: Hardcoded name 'club-xxxx' needs to be picked from terraform.tfvars
