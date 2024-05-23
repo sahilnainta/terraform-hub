@@ -36,7 +36,11 @@ sudo systemctl start nginx
 
 # nginx configuration
 sudo touch /etc/nginx/conf.d/server.conf
-echo  'server {
+echo  'gzip on;
+gzip_types text/plain application/json;
+gzip_min_length 1000;
+
+server {
   server_name api.club.32nd.com;
   location /graphql {
       proxy_set_header  X-Real-IP  $remote_addr;
