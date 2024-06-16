@@ -155,7 +155,7 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu" {
   namespace           = "AWS/EC2"
   period              = "60"
   statistic           = "Average"
-  threshold           = "70"
+  threshold           = "60"
   alarm_description   = format("This metric monitors %s-app high cpu utilization", var.project)
   dimensions = {
     AutoScalingGroupName = aws_autoscaling_group.app_asg.name
@@ -172,7 +172,7 @@ resource "aws_cloudwatch_metric_alarm" "low_cpu" {
   namespace           = "AWS/EC2"
   period              = "60"
   statistic           = "Average"
-  threshold           = "40"
+  threshold           = "30"
   alarm_description   = format("This metric monitors %s-app low cpu utilization", var.project)
   dimensions = {
     AutoScalingGroupName = aws_autoscaling_group.app_asg.name
