@@ -161,7 +161,10 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu" {
     AutoScalingGroupName = aws_autoscaling_group.app_asg.name
   }
 
-  alarm_actions = [aws_autoscaling_policy.app_scale_up.arn]
+  alarm_actions = [
+    aws_autoscaling_policy.app_scale_up.arn,
+    aws_sns_topic.app_notifications.arn
+    ]
 }
 
 resource "aws_cloudwatch_metric_alarm" "low_cpu" {
