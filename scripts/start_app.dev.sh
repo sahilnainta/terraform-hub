@@ -16,10 +16,10 @@ sudo rm -rf prod && mkdir prod
 cd /home/ec2-user/prod
 
 # fetch latest tag
-latestTag=$(git ls-remote --tags --refs --sort="v:refname" https://32nd-hub-admin:ATBB3x8GXLXgqaNv9TV7MWS66GTSBD45A5F0@bitbucket.org/sahil32nd/hub-nodejs.git | tail -n1 | sed 's/.*\///')
+latestTag=$(git ls-remote --tags --refs --sort="v:refname" https://32nd-hub-admin:ATBBpdBXm64XSvTBq3rbesAFgf3a6A4F2608@bitbucket.org/sahil32nd/hub-nodejs.git | tail -n1 | sed 's/.*\///')
 
 # clone latest tag
-git clone --depth 1 -b $latestTag https://32nd-hub-admin:ATBB3x8GXLXgqaNv9TV7MWS66GTSBD45A5F0@bitbucket.org/sahil32nd/hub-nodejs.git
+git clone --depth 1 -b $latestTag https://32nd-hub-admin:ATBBpdBXm64XSvTBq3rbesAFgf3a6A4F2608@bitbucket.org/sahil32nd/hub-nodejs.git
 
 cd hub-nodejs
 cp .env.staging .env
@@ -41,7 +41,7 @@ pm2 save
 cd /home/ec2-user
 sudo rm -rf club-app && mkdir club-app
 cd /home/ec2-user/club-app
-git clone -b master https://32nd-hub-admin:ATBB3x8GXLXgqaNv9TV7MWS66GTSBD45A5F0@bitbucket.org/sahil32nd/hub-nodejs.git
+git clone -b master https://32nd-hub-admin:ATBBpdBXm64XSvTBq3rbesAFgf3a6A4F2608@bitbucket.org/sahil32nd/hub-nodejs.git
 cd hub-nodejs
 yarn install
 yarn build
